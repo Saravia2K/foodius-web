@@ -1,3 +1,10 @@
+:root {
+  --yellow: #f2a007;
+  --black: #000000;
+  --pink: #f20574;
+  --white: #f5efef;
+}
+
 *,
 *::after,
 *::before {
