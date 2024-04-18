@@ -1,0 +1,20 @@
+.text-field :global {
+  $color: #f20574;
+
+  .MuiInputBase-root {
+    border-radius: 50px;
+
+    .MuiInputBase-input {
+      color: $color;
+      padding: 5px 25px;
+
+      &::placeholder {
+        color: $color;
+      }
+    }
+
+    &.Mui-focused .MuiOutlinedInput-notchedOutline {
+      border-color: $color;
+    }
+  }
+}
