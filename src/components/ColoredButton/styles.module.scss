@@ -1,0 +1,17 @@
+.color:global {
+  &.MuiButtonBase-root {
+    width: fit-content;
+    border-radius: 50px;
+    text-transform: unset;
+  }
+
+  &.yellow,
+  &:hover.yellow {
+    background-color: var(--yellow);
+  }
+
+  &.pink,
+  &:hover.pink {
+    background-color: var(--pink);
+  }
+}
