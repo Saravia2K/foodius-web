@@ -7,13 +7,15 @@
     padding: 5px 40px;
   }
 
-  &.yellow,
-  &:hover.yellow {
-    background-color: var(--yellow);
-  }
+  &:not(.Mui-disabled) {
+    &.yellow,
+    &:hover.yellow {
+      background-color: var(--yellow);
+    }
 
-  &.pink,
-  &:hover.pink {
-    background-color: var(--pink);
+    &.pink,
+    &:hover.pink {
+      background-color: var(--pink);
+    }
   }
 }
