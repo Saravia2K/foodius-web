@@ -1,22 +1,43 @@
+import { useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { CircularProgress } from "@mui/material";
 
+import { login } from "@/services/users.service";
 import FormModal from "@/components/FormModal";
 import Input from "@/components/Input";
 import ColoredButton from "@/components/ColoredButton";
 import { TFormInput, TProps } from "./types";
+import { useSession } from "@/states/session";
 
 export default function Login({ open, onClose }: TProps) {
-  const { control, handleSubmit } = useForm<TFormInput>({
+  const session = useSession((state) => state);
+  const [error, setError] = useState("");
+  const {
+    control,
+    handleSubmit,
+    formState: { isSubmitting },
+    reset,
+  } = useForm<TFormInput>({
     defaultValues: {
       email: "",
       password: "",
     },
   });
 
-  const handleFormSubmit: SubmitHandler<TFormInput> = (data) => {};
+  const handleFormSubmit: SubmitHandler<TFormInput> = async (data) => {
+    setError("");
+    const loginRes = await login(data.email, data.password);
+    if (!loginRes.response.ok) {
+      setError(loginRes.data.message);
+      return;
+    }
+    onClose();
+    reset();
+    session.login();
+  };
 
   return (
-    <FormModal open={open} onClose={onClose}>
+    <FormModal open={open} onClose={onClose} error={error}>
       <form
         onSubmit={handleSubmit(handleFormSubmit)}
         style={{
@@ -34,6 +55,7 @@ export default function Login({ open, onClose }: TProps) {
               type="email"
               title="Correo electrónico"
               placeholder="example@email.com"
+              required
             />
           )}
         />
@@ -46,6 +68,7 @@ export default function Login({ open, onClose }: TProps) {
               type="password"
               title="Contraseña"
               placeholder="••••••••••"
+              required
             />
           )}
         />
@@ -54,8 +77,13 @@ export default function Login({ open, onClose }: TProps) {
           style={{
             margin: "auto",
           }}
+          disabled={isSubmitting}
         >
-          Iniciar Sesión
+          {isSubmitting ? (
+            <CircularProgress color="primary" size="30px" />
+          ) : (
+            "Iniciar Sesión"
+          )}
         </ColoredButton>
       </form>
     </FormModal>
