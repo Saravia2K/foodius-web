@@ -27,7 +27,7 @@ export default function ClientNavbar() {
   }, []);
 
   function handleWindowScroll() {
-    setScrolled(window.scrollY > 100);
+    setScrolled(window.scrollY >= 100);
   }
 
   const NotLoggedInItems = () => (
