@@ -20,7 +20,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: TRootLayout) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={inter.className} style={{ paddingTop: 100 }}>
         <ToastifyProvider>
           <ClientNavbar />
           {children}
