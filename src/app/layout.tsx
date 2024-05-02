@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import ClientNavbar from "@/layouts/ClientNavbar";
-import Footer from "@/layouts/Footer";
 
 import "./globals.css";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -21,11 +20,7 @@ export default function RootLayout({ children }: TRootLayout) {
   return (
     <html lang="en">
       <body className={inter.className} style={{ paddingTop: 100 }}>
-        <ToastifyProvider>
-          <ClientNavbar />
-          {children}
-          <Footer />
-        </ToastifyProvider>
+        <ToastifyProvider>{children}</ToastifyProvider>
       </body>
     </html>
   );
