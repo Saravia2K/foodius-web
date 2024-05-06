@@ -1,21 +1,16 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import {
-  MenuItem,
-  InputLabel,
-  FormControl,
-  SelectChangeEvent,
-} from "@mui/material";
+import Image from "next/image";
+import Link from "next/link";
 import useGlobalSettings from "@/hooks/useGlobalSettings";
+import useBusiness from "@/hooks/useBusiness";
+import Select from "@/components/Select";
 
 import styles from "./styles.module.scss";
-import NEGOCIOS from "./NEGOCIOS.json";
-import Image from "next/image";
-import Select from "@/components/Select";
-import Link from "next/link";
 
 export default function NegociosPage() {
+  const { business } = useBusiness();
   const [order, setOrder] = useState<"p" | "n">("p");
   const { setMainStyles } = useGlobalSettings((s) => s);
 
@@ -40,7 +35,7 @@ export default function NegociosPage() {
       />
       <h2 className={styles.title}>Hecho especialmente para ti</h2>
       <div className={styles.container}>
-        {NEGOCIOS.map((n, i) => (
+        {business.map((n, i) => (
           <Link
             key={i}
             className={styles["business-card"]}
