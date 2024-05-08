@@ -37,6 +37,7 @@ const shoppingCartState = create<TShoppingCartState>()(
 
           return { foods };
         }),
+      cleanCart: () => set(() => ({ foods: [] })),
     }),
     {
       name: "shopping-cart",
@@ -53,6 +54,7 @@ type TShoppingCartState = {
   setFood: (food: TFood, amount: number) => void;
   updateFoodAmount: (id: number, amount: number) => void;
   deleteFood: (id: number) => void;
+  cleanCart: () => void;
 };
 
 type TShoppingCartFood = TFood & { amount: number };
