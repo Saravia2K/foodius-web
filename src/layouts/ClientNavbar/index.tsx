@@ -9,14 +9,14 @@ import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import ColoredButton from "@/components/ColoredButton";
 import Login from "@/forms/Login";
 import SignUp from "@/forms/SignUp";
-import { useSession } from "@/states/session";
+import useSession from "@/hooks/useSession";
 import ShoppingCart from "../ShoppingCart";
 
 import style from "./styles.module.scss";
 import logo from "@/assets/images/foodius-logo.png";
 
 export default function ClientNavbar() {
-  const session = useSession((state) => state);
+  const session = useSession();
   const [scrolled, setScrolled] = useState(false);
   const [openLogin, setOpenLogin] = useState(false);
   const [openSignUp, setOpenSignUp] = useState(false);
@@ -104,7 +104,11 @@ export default function ClientNavbar() {
         <Navbar.Toggle aria-controls="navbar" />
         <Navbar.Collapse id="navbar" className="justify-content-end">
           <Nav className="ms-auto">
-            {session.loggedIn ? <LoggedInItems /> : <NotLoggedInItems />}
+            {session.userLogged != undefined ? (
+              <LoggedInItems />
+            ) : (
+              <NotLoggedInItems />
+            )}
           </Nav>
         </Navbar.Collapse>
       </Container>
