@@ -1,15 +1,15 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
-import ClientNavbar from "@/layouts/ClientNavbar";
+import ToastifyProvider from "@/providers/ToastifyProvider";
+import ReactQueryProvider from "@/providers/ReactQueryProvider";
 
 import "./globals.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-toastify/dist/ReactToastify.css";
-import ToastifyProvider from "@/providers/ToastifyProvider";
 
 const inter = Poppins({
   subsets: ["latin"],
-  weight: ["200", "400", "600", "800"],
+  weight: ["200", "400", "600", "700", "800"],
 });
 
 export const metadata: Metadata = {
@@ -20,7 +20,9 @@ export default function RootLayout({ children }: TRootLayout) {
   return (
     <html lang="en">
       <body className={inter.className} style={{ paddingTop: 100 }}>
-        <ToastifyProvider>{children}</ToastifyProvider>
+        <ReactQueryProvider>
+          <ToastifyProvider>{children}</ToastifyProvider>
+        </ReactQueryProvider>
       </body>
     </html>
   );
