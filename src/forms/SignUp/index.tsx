@@ -134,7 +134,18 @@ export default function SignUp({ open, onClose }: TProps) {
             />
           )}
         />
-
+        <Controller
+          control={control}
+          name="location"
+          render={({ field: { ref, ..._field } }) => (
+            <Input
+              {..._field}
+              title="Ubicación"
+              placeholder="Agrega el link de tu ubicación de Google Maps"
+              required
+            />
+          )}
+        />
         <FormControlLabel
           control={
             <Checkbox
