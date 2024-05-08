@@ -14,9 +14,12 @@ import ShoppingCart from "../ShoppingCart";
 
 import style from "./styles.module.scss";
 import logo from "@/assets/images/foodius-logo.png";
+import { usePathname, useRouter } from "next/navigation";
 
 export default function ClientNavbar() {
   const session = useSession();
+  const router = useRouter();
+  const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [openLogin, setOpenLogin] = useState(false);
   const [openSignUp, setOpenSignUp] = useState(false);
@@ -29,8 +32,17 @@ export default function ClientNavbar() {
     return () => window.removeEventListener("scroll", handleWindowScroll);
   }, []);
 
+  useEffect(() => {
+    if (session.userLogged == undefined && pathname != "/") router.push("/");
+  }, [pathname]);
+
   function handleWindowScroll() {
     setScrolled(window.scrollY >= 100);
+  }
+
+  function logout() {
+    session.logout();
+    router.push("/");
   }
 
   const NotLoggedInItems = () => (
@@ -72,7 +84,7 @@ export default function ClientNavbar() {
             paddingLeft: "25px",
             paddingRight: "25px",
           }}
-          onClick={() => session.logout()}
+          onClick={logout}
         >
           <ExitToAppIcon />
         </ColoredButton>
@@ -99,7 +111,13 @@ export default function ClientNavbar() {
           src={logo}
           alt="Logo"
           width={400}
-          style={{ width: "100px", height: "auto", aspectRatio: 1 }}
+          style={{
+            width: "100px",
+            height: "auto",
+            aspectRatio: 1,
+            cursor: "pointer",
+          }}
+          onClick={() => router.push("/negocios")}
         />
         <Navbar.Toggle aria-controls="navbar" />
         <Navbar.Collapse id="navbar" className="justify-content-end">
