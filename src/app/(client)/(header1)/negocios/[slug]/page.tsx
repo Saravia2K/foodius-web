@@ -71,7 +71,7 @@ export default function NegocioPage() {
   function addToShoppingCart() {
     if (targetFood == undefined) return;
 
-    setFood(targetFood, targetFoodAmount);
+    setFood(targetFood, targetFoodAmount, business.id);
     setTargetFood(undefined);
     setTargetFoodAmount(1);
   }
