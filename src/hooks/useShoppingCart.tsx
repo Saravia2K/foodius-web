@@ -12,7 +12,7 @@ const shoppingCartState = create<TShoppingCartState>()(
           const foods = [...state.foods];
 
           if (foods.length > 0 && foods[0].businessId != businessId) {
-            toast("Ya tienes un pedido en curo!", {
+            toast("Ya tienes un pedido en curso!", {
               type: "warning",
             });
             return { foods };
