@@ -1,0 +1,103 @@
+.negocio {
+  background-color: #fff;
+  padding: 75px 150px;
+
+  & :global {
+    .css-1h9z7r5-MuiButtonBase-root-MuiTab-root.Mui-selected {
+      color: #000000;
+      font-weight: bold;
+    }
+
+    .css-1aquho2-MuiTabs-indicator {
+      background-color: #000000;
+    }
+  }
+
+  .business-images {
+    position: relative;
+    height: 350px;
+
+    .banner-container {
+      border-radius: 15px;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .logo {
+      position: absolute;
+      bottom: 0;
+      left: 25px;
+      border-radius: 50%;
+      width: 150px;
+      height: auto;
+      transform: translateY(50%);
+    }
+  }
+
+  .initial-info {
+    display: grid;
+    grid-template-columns: 75% 1fr;
+    gap: 35px;
+
+    .business-data {
+      padding-top: 100px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 25px;
+
+      .title-schedule {
+        .title {
+          font-weight: 700;
+          font-size: 50px;
+          margin-bottom: 0;
+        }
+
+        .schedule {
+          color: var(--gray);
+        }
+      }
+
+      .main-plates {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 35px;
+      }
+    }
+
+    .map-schedules-container {
+      width: 100%;
+      margin-top: 25px;
+      border-radius: 20px;
+      overflow: hidden;
+      background-color: var(--white);
+
+      .map-container {
+        width: 100%;
+
+        iframe {
+          border: 0;
+          width: 100%;
+          height: 200px !important;
+        }
+      }
+    }
+  }
+
+  .menu {
+    margin-top: 50px;
+
+    .menu-title {
+      color: var(--pink);
+      font-size: 25px;
+      font-weight: 700;
+      border-bottom: 2px solid #bbbbbb;
+      padding-bottom: 10px;
+    }
+
+    .menu-schedule {
+      font-size: 15px;
+      color: #bbbbbb;
+    }
+  }
+}
