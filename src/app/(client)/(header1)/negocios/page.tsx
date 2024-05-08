@@ -4,13 +4,13 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import useGlobalSettings from "@/hooks/useGlobalSettings";
-import useBusiness from "@/hooks/useBusiness";
 import Select from "@/components/Select";
+import useBusinesses from "@/hooks/useBusinesses";
 
 import styles from "./styles.module.scss";
 
 export default function NegociosPage() {
-  const { business } = useBusiness();
+  const { businesses } = useBusinesses();
   const [order, setOrder] = useState<"p" | "n">("p");
   const { setMainStyles } = useGlobalSettings((s) => s);
 
@@ -35,7 +35,7 @@ export default function NegociosPage() {
       />
       <h2 className={styles.title}>Hecho especialmente para ti</h2>
       <div className={styles.container}>
-        {business.map((n, i) => (
+        {businesses.map((n, i) => (
           <Link
             key={i}
             className={styles["business-card"]}
@@ -43,8 +43,8 @@ export default function NegociosPage() {
           >
             <Image
               className={styles["business-image"]}
-              src={n.image}
-              alt={n.title}
+              src={n.banner}
+              alt={n.name}
               width={1280}
               height={720}
               style={{
@@ -52,7 +52,7 @@ export default function NegociosPage() {
                 height: "auto",
               }}
             />
-            <span className={styles["business-title"]}>{n.title}</span>
+            <span className={styles["business-title"]}>{n.name}</span>
           </Link>
         ))}
       </div>
