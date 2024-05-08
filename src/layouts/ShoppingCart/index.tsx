@@ -1,4 +1,7 @@
+"use client";
+
 import { Fragment } from "react";
+import { useRouter } from "next/navigation";
 import { Box, IconButton, Typography } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -11,6 +14,7 @@ import { API_URL } from "@/utils/consts";
 
 export default function ShoppingCart({ onClose }: TProps) {
   const { foods, updateFoodAmount, deleteFood } = useShoppingCart();
+  const router = useRouter();
 
   return (
     <Fragment>
@@ -86,6 +90,7 @@ export default function ShoppingCart({ onClose }: TProps) {
           color="pink"
           sx={{ width: "100% !important" }}
           disabled={foods.length == 0}
+          onClick={() => router.push("/orden")}
         >
           Ordena aquí
         </ColoredButton>
