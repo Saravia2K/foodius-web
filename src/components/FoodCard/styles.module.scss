@@ -1,5 +1,5 @@
 .food-card {
-  height: 150px;
+  height: 175px;
   background-color: var(--white);
   border-radius: 25px;
   display: grid;
@@ -8,7 +8,9 @@
 
   .food-info {
     padding: 20px;
-    height: 150px;
+    height: 175px;
+    display: grid;
+    grid-template-rows: 50% 1fr 20%;
 
     .food-name {
       font-size: 20px;
