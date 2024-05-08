@@ -1,14 +1,16 @@
-
-import React from 'react';
-
-
 import Image from "next/image";
 import pasta from "@/assets/pasta.jpg"
+
+import ColoredButton from "@/components/ColoredButton";
+
+import Counter from "@/components/Counter";
 
 export default function detalle_orden() {
     return (
         <div>
             <div style={{ backgroundColor: '#FFEFEA' }}>
+
+                <ColoredButton color="pink">&#129044;</ColoredButton>
 
                 <div className="container-fluid">
                     <div className="row d-flex">
@@ -73,16 +75,13 @@ export default function detalle_orden() {
                                             <h6 className="card-title fw-bold py-3">total: </h6>
                                         </div>
                                         <div className="col">
-                                            <h6 className="card-title py-3">$$</h6>
+                                            <h6 className="card-title py-3" style={{ color: '#F20574' }}>$$</h6>
                                         </div>
                                     </div>
 
                                     <h4 className="card-title border-bottom py-4">Metodo de pago</h4>
 
-                                    <button type="button" className="btn btn-warning btn-lg py-2 m-2">
-                                        <span className="me-2" style={{ backgroundColor: "white", width: "20px", height: "20px", display: "inline-block", borderRadius: "4px" }}></span>
-                                        Pago contra-entrega
-                                    </button>
+                                    <ColoredButton color="yellow">Pago contra entrega</ColoredButton>
 
 
 
@@ -112,7 +111,7 @@ export default function detalle_orden() {
                                                             <h6 className="card-title fw-bold py-2">##</h6>
                                                         </div>
                                                     </div>
-                                                    <h6 className="text-danger fw-bold">$$</h6>
+                                                    <h6 className="text-danger " style={{ color: '#F20574' }}>$$</h6>
                                                 </div>
                                             </div>
                                         </div>
@@ -131,10 +130,7 @@ export default function detalle_orden() {
 
 
 
-                                <button type="button" className="btn btn-danger btn-lg py-2 m-2">
-                                    <span className="me-2" style={{ backgroundColor: "white", width: "20px", height: "20px", display: "inline-block", borderRadius: "4px" }}></span>
-                                    Pago contra-entrega
-                                </button>
+                                <ColoredButton color="pink">Ordena aqui!</ColoredButton>
 
                             </div>
 
