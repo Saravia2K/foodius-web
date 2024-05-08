@@ -1,16 +1,20 @@
+"use client";
+
 import { useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { CircularProgress } from "@mui/material";
+import { useRouter } from "next/navigation";
 
 import { login } from "@/services/users.service";
 import FormModal from "@/components/FormModal";
 import Input from "@/components/Input";
 import ColoredButton from "@/components/ColoredButton";
 import { TFormInput, TProps } from "./types";
-import { useSession } from "@/states/session";
+import useSession from "@/hooks/useSession";
 
 export default function Login({ open, onClose }: TProps) {
-  const session = useSession((state) => state);
+  const router = useRouter();
+  const session = useSession();
   const [error, setError] = useState("");
   const {
     control,
@@ -31,9 +35,11 @@ export default function Login({ open, onClose }: TProps) {
       setError(loginRes.data.message);
       return;
     }
+
     onClose();
     reset();
-    session.login();
+    session.login(loginRes.data.user);
+    router.push("/negocios");
   };
 
   return (
