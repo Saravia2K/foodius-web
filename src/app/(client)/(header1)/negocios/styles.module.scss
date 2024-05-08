@@ -1,0 +1,52 @@
+.negocios {
+  padding: 50px 200px;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+
+  .title {
+    font-weight: 600;
+    font-size: 25px;
+  }
+
+  .container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 60px;
+
+    .business-card {
+      cursor: pointer;
+      overflow: hidden;
+
+      &:hover {
+        background: #ffffff 0% 0% no-repeat padding-box;
+        box-shadow: 0px 3px 6px #00000029;
+        border-radius: 10px 10px 0 0;
+        -webkit-transition: all 0.3s ease;
+        -moz-transition: all 0.3s ease;
+        -ms-transition: all 0.3s ease;
+        -o-transition: all 0.3s ease;
+        transition: all 0.3s ease;
+
+        .business-image {
+          border-radius: 0px;
+        }
+      }
+
+      .business-image {
+        border-radius: 10px;
+        -webkit-transition: all 0.3s ease;
+        -moz-transition: all 0.3s ease;
+        -ms-transition: all 0.3s ease;
+        -o-transition: all 0.3s ease;
+        transition: all 0.3s ease;
+      }
+
+      .business-title {
+        display: block;
+        margin: 15px;
+      }
+    }
+  }
+}

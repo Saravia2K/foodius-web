@@ -1,11 +1,6 @@
-import Footer from "@/layouts/Footer";
 import { PropsWithChildren } from "react";
+import Main from "./components/Main";
 
 export default function ClientLayout({ children }: PropsWithChildren) {
-  return (
-    <>
-      {children}
-      <Footer />
-    </>
-  );
+  return <Main>{children}</Main>;
 }

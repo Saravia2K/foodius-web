@@ -1,11 +1,12 @@
 import { TAPIResponse } from "./types";
+import { API_URL } from "./consts";
 
 export default async function APIRequest<T>(
   url: string,
   method: ReqMethods,
   options?: Options | {}
 ) {
-  const fetchRes = await fetch(url, {
+  const fetchRes = await fetch(`${API_URL}/${url}`, {
     ...options,
     method,
     headers: {
