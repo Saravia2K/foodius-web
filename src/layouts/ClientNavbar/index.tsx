@@ -3,12 +3,14 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { Container, Nav, Navbar } from "react-bootstrap";
+import { Drawer } from "@mui/material";
 import LocalGroceryStoreIcon from "@mui/icons-material/LocalGroceryStore";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import ColoredButton from "@/components/ColoredButton";
 import Login from "@/forms/Login";
 import SignUp from "@/forms/SignUp";
 import { useSession } from "@/states/session";
+import ShoppingCart from "../ShoppingCart";
 
 import style from "./styles.module.scss";
 import logo from "@/assets/images/foodius-logo.png";
@@ -18,6 +20,7 @@ export default function ClientNavbar() {
   const [scrolled, setScrolled] = useState(false);
   const [openLogin, setOpenLogin] = useState(false);
   const [openSignUp, setOpenSignUp] = useState(false);
+  const [openDrawer, setOpenDrawer] = useState(false);
 
   useEffect(() => {
     setScrolled(window.scrollY > 100);
@@ -57,6 +60,7 @@ export default function ClientNavbar() {
             paddingRight: "25px",
             marginRight: 15,
           }}
+          onClick={() => setOpenDrawer(true)}
         >
           <LocalGroceryStoreIcon />
         </ColoredButton>
@@ -73,6 +77,13 @@ export default function ClientNavbar() {
           <ExitToAppIcon />
         </ColoredButton>
       </Nav.Item>
+      <Drawer
+        anchor="right"
+        open={openDrawer}
+        onClose={() => setOpenDrawer(false)}
+      >
+        <ShoppingCart onClose={() => setOpenDrawer(false)} />
+      </Drawer>
     </>
   );
 
