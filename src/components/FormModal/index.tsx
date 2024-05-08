@@ -14,7 +14,7 @@ export default function FormModal({
   onClose,
 }: TComponentProps) {
   return (
-    <Modal open={open} onClose={onClose}>
+    <Modal open={open} onClose={onClose} style={{ overflow: "auto" }}>
       <Box p={6} sx={sxStyles.box}>
         <Image src={logo} alt="Foodius logo" className={styles.logo} />
         {error && <Alert severity="error">{error}</Alert>}

@@ -3,6 +3,7 @@
   --black: #000000;
   --pink: #f20574;
   --white: #f5efef;
+  --gray: #807c7c;
 }
 
 *,
@@ -11,4 +12,9 @@
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+}
+
+a {
+  text-decoration: none !important;
+  color: inherit !important;
 }

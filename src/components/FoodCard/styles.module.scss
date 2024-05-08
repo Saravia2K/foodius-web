@@ -1,0 +1,44 @@
+.food-card {
+  height: 175px;
+  background-color: var(--white);
+  border-radius: 25px;
+  display: grid;
+  grid-template-columns: 60% 40%;
+  overflow: hidden;
+
+  .food-info {
+    padding: 20px;
+    height: 175px;
+    display: grid;
+    grid-template-rows: 50% 1fr 20%;
+
+    .food-name {
+      font-size: 20px;
+      font-weight: 800;
+    }
+
+    .food-description {
+      font-size: 12px;
+    }
+
+    .order-btn {
+      width: 10px !important;
+      font-size: 10px !important;
+    }
+  }
+
+  .food-img-container {
+    border-radius: 25px;
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+    aspect-ratio: 1;
+    overflow: hidden;
+
+    .food-img {
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+    }
+  }
+}
