@@ -6,6 +6,7 @@ import Link from "next/link";
 import useGlobalSettings from "@/hooks/useGlobalSettings";
 import Select from "@/components/Select";
 import useBusinesses from "@/hooks/useBusinesses";
+import { API_URL } from "@/utils/consts";
 
 import styles from "./styles.module.scss";
 
@@ -43,10 +44,10 @@ export default function NegociosPage() {
           >
             <Image
               className={styles["business-image"]}
-              src={n.banner}
+              src={`${API_URL}/static/banners/${n.banner}`}
               alt={n.name}
-              width={1280}
-              height={720}
+              width={960}
+              height={540}
               style={{
                 width: "100%",
                 height: "auto",
