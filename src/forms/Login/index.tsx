@@ -3,14 +3,16 @@
 import { useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { CircularProgress } from "@mui/material";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next-nprogress-bar";
 
-import { login } from "@/services/users.service";
 import FormModal from "@/components/FormModal";
 import Input from "@/components/Input";
 import ColoredButton from "@/components/ColoredButton";
 import { TFormInput, TProps } from "./types";
+
 import useSession from "@/hooks/useSession";
+
+import { login } from "@/services/users.service";
 
 export default function Login({ open, onClose }: TProps) {
   const router = useRouter();

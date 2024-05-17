@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import ToastifyProvider from "@/providers/ToastifyProvider";
 import ReactQueryProvider from "@/providers/ReactQueryProvider";
+import ProgressbarProvider from "@/providers/ProgressbarProvider";
 
 import "./globals.css";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -20,9 +21,11 @@ export default function RootLayout({ children }: TRootLayout) {
   return (
     <html lang="en">
       <body className={inter.className} style={{ paddingTop: 100 }}>
-        <ReactQueryProvider>
-          <ToastifyProvider>{children}</ToastifyProvider>
-        </ReactQueryProvider>
+        <ProgressbarProvider>
+          <ReactQueryProvider>
+            <ToastifyProvider>{children}</ToastifyProvider>
+          </ReactQueryProvider>
+        </ProgressbarProvider>
       </body>
     </html>
   );
