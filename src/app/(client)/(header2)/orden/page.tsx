@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next-nprogress-bar";
 import { Backdrop } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
 import { toast } from "react-toastify";
@@ -26,7 +26,7 @@ export default function Orden() {
 
   useEffect(() => {
     setTotal(foods.reduce((prev, curr) => prev + +curr.price * curr.amount, 0));
-  }, []);
+  }, [foods]);
 
   async function handleOrderHereClick() {
     setOpenBackdrop(true);
@@ -47,7 +47,6 @@ export default function Orden() {
     router.push(`/orden/${token}`);
   }
 
-  if (foods.length == 0) return router.back();
   return (
     <div>
       <div style={{ backgroundColor: "#FFEFEA" }}>
@@ -170,7 +169,7 @@ export default function Orden() {
               <div className="card rounded-5 border-0">
                 <div className="card-body">
                   <h4 className="card-title border-bottom py-4">Resumen</h4>
-                  {foods.map((f, i) => (
+                  {(foods || []).map((f, i) => (
                     <div
                       key={i}
                       className="card mb-3"

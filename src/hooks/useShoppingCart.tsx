@@ -18,7 +18,7 @@ const shoppingCartState = create<TShoppingCartState>()(
             return { foods };
           }
 
-          const foodIdx = state.foods.findIndex((f) => f.name == food.name);
+          const foodIdx = foods.findIndex((f) => f.name == food.name);
           if (foodIdx > -1) foods[foodIdx].amount += amount;
           else foods.push({ ...food, amount, businessId });
 
@@ -34,7 +34,7 @@ const shoppingCartState = create<TShoppingCartState>()(
             else foods[foodIdx].amount = amount;
           }
 
-          return { foods };
+          return { foods: foods.length == 0 ? undefined : foods };
         }),
       deleteFood: (id) =>
         set((state) => {
@@ -43,7 +43,7 @@ const shoppingCartState = create<TShoppingCartState>()(
 
           if (foodIdx > -1) foods.splice(foodIdx, 1);
 
-          return { foods };
+          return { foods: foods.length == 0 ? undefined : foods };
         }),
       cleanCart: () => set(() => ({ foods: [] })),
     }),

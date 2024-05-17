@@ -3,23 +3,25 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { Container, Nav, Navbar } from "react-bootstrap";
+import { useRouter } from "next-nprogress-bar";
 import { Drawer } from "@mui/material";
+
 import LocalGroceryStoreIcon from "@mui/icons-material/LocalGroceryStore";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
+
 import ColoredButton from "@/components/ColoredButton";
+import ShoppingCart from "../ShoppingCart";
 import Login from "@/forms/Login";
 import SignUp from "@/forms/SignUp";
+
 import useSession from "@/hooks/useSession";
-import ShoppingCart from "../ShoppingCart";
 
 import style from "./styles.module.scss";
 import logo from "@/assets/images/foodius-logo.png";
-import { usePathname, useRouter } from "next/navigation";
 
 export default function ClientNavbar() {
   const session = useSession();
   const router = useRouter();
-  const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [openLogin, setOpenLogin] = useState(false);
   const [openSignUp, setOpenSignUp] = useState(false);
@@ -31,10 +33,6 @@ export default function ClientNavbar() {
 
     return () => window.removeEventListener("scroll", handleWindowScroll);
   }, []);
-
-  useEffect(() => {
-    if (session.userLogged == undefined && pathname != "/") router.push("/");
-  }, [pathname]);
 
   function handleWindowScroll() {
     setScrolled(window.scrollY >= 100);
