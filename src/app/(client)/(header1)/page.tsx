@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import { Grid, Typography } from "@mui/material";
 import LandingSection from "@/components/LandingSection";
