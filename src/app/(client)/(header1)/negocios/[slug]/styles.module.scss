@@ -3,12 +3,12 @@
   padding: 75px 150px;
 
   & :global {
-    .css-1h9z7r5-MuiButtonBase-root-MuiTab-root.Mui-selected {
-      color: #000000;
+    .MuiTab-root.Mui-selected {
+      color: #000000 !important;
       font-weight: bold;
     }
 
-    .css-1aquho2-MuiTabs-indicator {
+    .MuiTabs-indicator {
       background-color: #000000;
     }
   }
