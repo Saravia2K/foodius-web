@@ -1,4 +1,4 @@
-import { CSSProperties, PropsWithChildren } from "react";
+import { PropsWithChildren } from "react";
 
 export default function LandingSection({ children, className }: TProps) {
   return (

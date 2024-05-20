@@ -156,29 +156,25 @@ export default function NegocioPage() {
               ))}
             </Tabs>
           </Box>
-          {business.FoodCategory.map((fc, i) =>
-            sectionSelected == i ? (
-              <Box
-                key={i}
-                display="grid"
-                gridTemplateColumns="1fr 1fr"
-                gap="50px"
-                mt={5}
-              >
-                {fc.Food.map((f, i) => (
-                  <FoodCard
-                    key={i}
-                    name={f.name}
-                    description={f.description}
-                    imgSrc={`${API_URL}/static/foods/${f.img_url}`}
-                    onOrderBtnClick={() => setTargetFood(f)}
-                  />
-                ))}
-              </Box>
-            ) : (
-              <></>
-            )
-          )}
+          {business.FoodCategory.map((fc, i) => (
+            <Box
+              key={i}
+              display={sectionSelected == i ? "grid" : "none"}
+              gridTemplateColumns="1fr 1fr"
+              gap="50px"
+              mt={5}
+            >
+              {fc.Food.map((f, i) => (
+                <FoodCard
+                  key={i}
+                  name={f.name}
+                  description={f.description}
+                  imgSrc={`${API_URL}/static/foods/${f.img_url}`}
+                  onOrderBtnClick={() => setTargetFood(f)}
+                />
+              ))}
+            </Box>
+          ))}
         </Box>
       </div>
       <Modal

@@ -43,7 +43,7 @@ const shoppingCartState = create<TShoppingCartState>()(
 
           if (foodIdx > -1) foods.splice(foodIdx, 1);
 
-          return { foods: foods.length == 0 ? undefined : foods };
+          return { foods };
         }),
       cleanCart: () => set(() => ({ foods: [] })),
     }),
