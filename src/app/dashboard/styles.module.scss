@@ -1,0 +1,61 @@
+.admin {
+  display: grid;
+  grid-template-columns: 10% 1fr;
+  height: 100%;
+
+  .sidebar {
+    display: grid;
+    grid-template-rows: 20% 1fr 20%;
+    background-color: var(--white);
+    padding: 40px;
+
+    .logo {
+      width: 100%;
+      height: auto;
+      margin-bottom: 25px;
+    }
+
+    .sections-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+
+      .item {
+        --icon-color: #000;
+        --btn-border: none;
+
+        display: flex;
+        justify-content: center;
+
+        :global {
+          .MuiSvgIcon-root {
+            font-size: 30px;
+            color: var(--icon-color);
+          }
+
+          .MuiButtonBase-root {
+            border: var(--btn-border);
+          }
+        }
+
+        &.active {
+          --icon-color: var(--pink);
+          --btn-border: 2px solid var(--pink);
+        }
+      }
+    }
+  }
+
+  .content {
+    padding: 50px;
+
+    .header {
+      height: 15%;
+      font-weight: 600;
+      font-size: 20px;
+    }
+  }
+}
