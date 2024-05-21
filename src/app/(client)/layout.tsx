@@ -14,6 +14,7 @@ export default function ClientLayout({ children }: PropsWithChildren) {
       bgcolor="var(--white)"
       className="main"
       sx={mainStyles}
+      style={{ paddingTop: 100 }}
     >
       {children}
       <Footer />
