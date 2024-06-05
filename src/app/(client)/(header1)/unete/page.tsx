@@ -1,5 +1,4 @@
 import Input from "@/components/Input";
-import styles from "./styles.module.scss";
 import ColoredButton from "@/components/ColoredButton";
 import Image from "next/image";
 import graficas from "../../../../assets/images/grffoodius.png";
