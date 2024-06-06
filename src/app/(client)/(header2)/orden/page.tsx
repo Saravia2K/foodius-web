@@ -13,7 +13,6 @@ import useShoppingCart from "@/hooks/useShoppingCart";
 import useSession from "@/hooks/useSession";
 
 import { API_URL } from "@/utils/consts";
-import { DELIVERY_METHODS } from "@/utils/enums";
 
 import { createOrder } from "@/services/orders.service";
 
@@ -30,11 +29,14 @@ export default function Orden() {
 
   async function handleOrderHereClick() {
     setOpenBackdrop(true);
-    const token = await createOrder({
-      id_user: session.userLogged!.id,
-      date: new Date(),
-      delivery_method: DELIVERY_METHODS.HOME_DELIVERY,
-    });
+    const token = await createOrder(
+      session.userLogged!.id,
+      foods.map((f) => ({
+        id_food: f.id,
+        price: +f.price,
+        quantity: f.amount,
+      }))
+    );
 
     if (token == undefined) {
       toast("Error tratando de crear la orden", {
