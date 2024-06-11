@@ -9,9 +9,16 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
 import style from "./styles.module.scss";
 
-export default function Select({ sx, value, items = [], onChange }: TProps) {
+export default function Select({
+  sx,
+  value,
+  fullWidth,
+  items = [],
+  onChange,
+}: TProps) {
   return (
     <MUISelect
+      fullWidth={fullWidth}
       sx={sx}
       value={value}
       onChange={onChange}
@@ -31,6 +38,7 @@ type TProps = {
   sx?: SxProps<Theme>;
   value: any;
   items?: Item[];
+  fullWidth?: boolean;
   onChange: (e: SelectChangeEvent) => any;
 };
 
