@@ -27,3 +27,11 @@ export type TOrderState =
   | "FINISHED"
   | "DELIVERING"
   | "CANCELED";
+
+export type TSchedule = {
+  id: number;
+  id_business: number;
+  day: string;
+  from: string;
+  to: string;
+};

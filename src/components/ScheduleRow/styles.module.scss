@@ -1,0 +1,43 @@
+.button-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+}
+
+.button-edit {
+  background-color: #f5a623;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-right: 8px;
+
+  &:hover {
+    background-color: #e59400;
+  }
+
+  .icon {
+    color: white;
+  }
+}
+
+.button-delete {
+  background-color: #ff0055;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: #e0004c;
+  }
+
+  .icon {
+    color: white;
+  }
+}
