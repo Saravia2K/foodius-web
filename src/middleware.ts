@@ -15,9 +15,6 @@ export function middleware(req: NextRequest) {
   if (!businessCookie && imInDashboardPages)
     return NextResponse.redirect(new URL("/", currentUrl));
 
-  if (!userCookie && currentPath != "/")
-    return NextResponse.redirect(new URL("/", currentUrl));
-
   return NextResponse.next();
 }
 

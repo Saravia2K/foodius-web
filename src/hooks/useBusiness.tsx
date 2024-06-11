@@ -26,7 +26,11 @@ export type TBusinessResponse = {
   logo: string;
   banner: string;
   slug: string;
-  Schedules: [];
+  Schedules: {
+    day: string;
+    from: string;
+    to: string;
+  }[];
   FoodCategory: TFoodCategory[];
 };
 

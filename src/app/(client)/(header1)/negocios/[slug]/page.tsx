@@ -130,10 +130,18 @@ export default function NegocioPage() {
           ></div>
           <Box>
             <List
-              list={[
-                "Lunes: 9:00 a.m - 9:00 p.m",
-                "Martes: 9:00 a.m - 9:00 p.m",
-              ]}
+              list={business.Schedules.map(
+                (s) =>
+                  `${s.day}: ${new Date(s.from).toLocaleTimeString("en", {
+                    hour12: true,
+                    hour: "numeric",
+                    minute: "2-digit",
+                  })} - ${new Date(s.to).toLocaleTimeString("en", {
+                    hour12: true,
+                    hour: "numeric",
+                    minute: "2-digit",
+                  })}`
+              )}
             />
             <CellphoneAsList cellphone={business.phone_number} />
           </Box>
