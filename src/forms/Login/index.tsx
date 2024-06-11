@@ -12,7 +12,9 @@ import { TFormInput, TProps } from "./types";
 
 import useSession from "@/hooks/useSession";
 
-import { login } from "@/services/users.service";
+import { login as userLogin } from "@/services/users.service";
+import { checkLogin } from "@/services/system.service";
+import { login as businessLogin } from "@/services/businesses.service";
 
 export default function Login({ open, onClose }: TProps) {
   const router = useRouter();
@@ -32,16 +34,30 @@ export default function Login({ open, onClose }: TProps) {
 
   const handleFormSubmit: SubmitHandler<TFormInput> = async (data) => {
     setError("");
-    const loginRes = await login(data.email, data.password);
-    if (!loginRes.response.ok) {
-      setError(loginRes.data.message);
-      return;
+
+    const loginType = await checkLogin(data.email);
+    if (loginType != "business" && loginType != "user") {
+      return setError("Credenciales Incorrectas");
+    }
+
+    if (loginType == "user") {
+      const loginRes = await userLogin(data.email, data.password);
+      if (!loginRes.response.ok) {
+        setError(loginRes.data.message);
+        return;
+      }
+      session.loginUser(loginRes.data.user);
+    } else {
+      const login = await businessLogin(data.email, data.password);
+      if ("message" in login) {
+        return setError(login.message);
+      }
+      session.loginBusiness(login);
     }
 
     onClose();
     reset();
-    session.login(loginRes.data.user);
-    router.push("/negocios");
+    router.push(loginType == "user" ? "/negocios" : "/dashboard");
   };
 
   return (

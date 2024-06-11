@@ -39,7 +39,7 @@ export default function ClientNavbar() {
   }
 
   function logout() {
-    session.logout();
+    session.logoutUser();
     router.push("/");
   }
 

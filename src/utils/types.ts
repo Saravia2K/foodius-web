@@ -10,3 +10,13 @@ export type TUser = {
   location: string;
   password: string;
 };
+
+export type TBusiness = {
+  name: string;
+  email: string;
+  phone_number: string;
+  location: string;
+  logo: string;
+  banner: string;
+  slug: string;
+};
