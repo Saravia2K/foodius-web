@@ -5,77 +5,78 @@ import styles from "./styles.module.scss";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Carousel from "react-bootstrap/Carousel";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
-
-import img1 from "@/assets/images/tacos2.jpg";
-import img2 from "@/assets/images/burrito.jpg";
-import img3 from "@/assets/images/tortas.jpg";
+import useBusinessDashboard from "@/hooks/useBusinessDashboard";
+import useSession from "@/hooks/useSession";
+import useBusinessFood from "@/hooks/useBussinessFood";
+import { Grid } from "@mui/material";
+import FoodCard from "@/components/FoodCard";
+import { TFood } from "@/hooks/useBusiness";
+import { API_URL } from "@/utils/consts";
 
 export default function AdminPage() {
   const [index, setIndex] = useState(0);
+  const { businessLogged } = useSession();
+  const { business } = useBusinessDashboard(businessLogged?.id ?? 0);
+  const { food } = useBusinessFood(businessLogged?.id ?? 0);
+  const [products, setProducts] = useState<TFood[]>([]);
+
+  useEffect(() => {
+    if (food == undefined) return;
+
+    let _products: TFood[] = [];
+    for (const f of Object.values(food))
+      _products = [..._products, ...f.dishes];
+
+    setProducts(_products);
+  }, [food]);
 
   const handleSelect = (selectedIndex: number) => {
     setIndex(selectedIndex);
   };
+
   return (
     <div>
       <Container>
         <Row>
           <Col>
             <Carousel activeIndex={index} onSelect={handleSelect}>
-              <Carousel.Item>
-                <Image
-                  src={img1}
-                  alt="grafica"
-                  style={{
-                    width: "350px",
-                    height: "250px",
-                    display: "block",
-                    margin: "0 auto",
-                    borderRadius: "20px",
-                  }}
-                />
-              </Carousel.Item>
-              <Carousel.Item>
-                <Image
-                  src={img2}
-                  alt="grafica"
-                  style={{
-                    width: "350px",
-                    height: "250px",
-                    display: "block",
-                    margin: "0 auto",
-                    borderRadius: "20px",
-                  }}
-                />
-              </Carousel.Item>
-              <Carousel.Item>
-                <Image
-                  src={img3}
-                  alt="grafica"
-                  style={{
-                    width: "350px",
-                    height: "250px",
-                    display: "block",
-                    margin: "0 auto",
-                    borderRadius: "20px",
-                  }}
-                />
-              </Carousel.Item>
+              {products.map((p, i) => (
+                <Carousel.Item key={i}>
+                  <Image
+                    src={`${API_URL}/${p.img_url}`}
+                    width={450}
+                    height={350}
+                    alt="grafica"
+                    style={{
+                      display: "block",
+                      margin: "auto",
+                      borderRadius: "20px",
+                    }}
+                  />
+                </Carousel.Item>
+              ))}
             </Carousel>
           </Col>
           <Col>
             <div className="Contenido">
-              <h2 style={{ color: "#F20574" }}>
-                <strong>Rico Rico taco</strong>
+              <h2
+                style={{
+                  color: "#F20574",
+                  textAlign: "center",
+                  fontWeight: "bold",
+                }}
+              >
+                {business?.name}
               </h2>
 
-              <p className={styles.descrip}>
-                Te presentamos Rico Rico Taco, donde buscamos hacer honor a
-                nuestro nombre, con sabores, olores, ingredientes que bscaran
-                saciar tu paladar, solo ordena y vive la experiencia.
-              </p>
+              {business && (
+                <div
+                  className={styles.map}
+                  dangerouslySetInnerHTML={{ __html: business.location }}
+                ></div>
+              )}
             </div>
             <div className={styles.barraB}>
               <div className="contBarra"></div>
@@ -89,7 +90,7 @@ export default function AdminPage() {
                 <Col>
                   <div className={styles.numb}>
                     <h1>
-                      <strong>500</strong>
+                      <strong>{business?.satisfied}</strong>
                     </h1>
                   </div>
                 </Col>
@@ -97,7 +98,7 @@ export default function AdminPage() {
             </div>
           </Col>
         </Row>
-        <div className={styles.mid}>
+        <Row className={styles.mid}>
           <h1>
             <strong>
               <center>
@@ -106,7 +107,18 @@ export default function AdminPage() {
               </center>
             </strong>
           </h1>
-        </div>
+        </Row>
+        <Grid container spacing={10}>
+          {products.map((p, i) => (
+            <Grid key={i} item xs={6}>
+              <FoodCard
+                name={p.name}
+                description={p.description}
+                imgSrc={`${API_URL}/${p.img_url}`}
+              />
+            </Grid>
+          ))}
+        </Grid>
       </Container>
     </div>
   );

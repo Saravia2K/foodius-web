@@ -8,11 +8,13 @@ import classnames from "classnames";
 
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
-
 import HomeIcon from "@mui/icons-material/Home";
 import StorefrontIcon from "@mui/icons-material/Storefront";
 import ScheduleIcon from "@mui/icons-material/Schedule";
 import RestaurantIcon from "@mui/icons-material/Restaurant";
+
+import useSession from "@/hooks/useSession";
+import useBusinessDashboard from "@/hooks/useBusinessDashboard";
 
 import styles from "./styles.module.scss";
 import logo from "@/assets/images/foodius-logo.png";
@@ -20,6 +22,8 @@ import logo from "@/assets/images/foodius-logo.png";
 export default function AdminLayout({ children }: PropsWithChildren) {
   const pathname = usePathname();
   const router = useRouter();
+  const { businessLogged } = useSession();
+  const { business } = useBusinessDashboard(businessLogged?.id ?? 0);
 
   return (
     <div className={styles.admin}>
@@ -55,7 +59,7 @@ export default function AdminLayout({ children }: PropsWithChildren) {
         <div></div>
       </nav>
       <main className={styles.content}>
-        <header className={styles.header}>Rico Rico Taco</header>
+        <header className={styles.header}>{business?.name}</header>
         <div className="main">{children}</div>
       </main>
     </div>

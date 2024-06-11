@@ -2,6 +2,8 @@
   display: grid;
   grid-template-columns: 10% 1fr;
   height: 100%;
+  max-height: 100%;
+  overflow: hidden;
 
   .sidebar {
     display: grid;
@@ -51,6 +53,7 @@
 
   .content {
     padding: 50px;
+    overflow: auto;
 
     .header {
       height: 15%;
@@ -59,49 +62,59 @@
     }
   }
 
-.barraB{ 
-  background-color: #f5efef;
-  border-radius: 20px;
-  
+  .barraB {
+    background-color: #f5efef;
+    border-radius: 20px;
+  }
+
+  .contBarra {
+    padding-left: 30px;
+    padding-top: 10px;
+    padding-bottom: 0px;
+  }
+
+  .mid {
+    padding-top: 30px;
+    padding-bottom: 30px;
+  }
+
+  .numb {
+    display: flex;
+    text-align: center;
+    color: #f20574;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+
+  .descrip {
+    font-size: small;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-align: justify;
+  }
+
+  .img1 {
+    text-align: center;
+  }
+
+  .img2 {
+    text-align: center;
+  }
+
+  .img3 {
+    text-align: center;
+  }
 }
 
-.contBarra{
-  padding-left: 30px;
-  padding-top: 10px;
-  padding-bottom: 0px;
-}
-
-.mid{
-  padding-top: 30px;
-  padding-bottom: 30px;
-}
-
-.numb{
+.map {
   display: flex;
-  text-align: center;
-  color: #F20574;
-  justify-content: center; 
-  align-items: center; 
-  height: 100%;
-}
+  justify-content: center;
+  padding: 15px 0;
 
-.descrip{
-  font-size: small;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  text-align: justify;
-}
-
-.img1{
-  text-align: center;
-}
-
-.img2{
-  text-align: center;
-}
-
-.img3{
-  text-align: center;
-}
-  
+  iframe {
+    width: 75%;
+    height: 300px;
+    border-radius: 15px;
+  }
 }
