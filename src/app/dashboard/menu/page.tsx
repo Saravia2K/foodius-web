@@ -14,106 +14,13 @@ import DashboardFoodRow from "@/components/DashboardFoodRow";
 
 import unmasrosa from "@/assets/images/anadir.png";
 import NewProductForm from "./NewProductForm";
+import NewCategoryForm from "./NewCategoryForm";
 
 export default function MenuPage() {
   const { businessLogged } = useSession();
   const { food } = useBusinessFood(businessLogged?.id ?? 0);
-
-  //drawer
-  const [otherOpen, setOtherOpen] = useState(false);
-  const toggleDrawer = (newOpen: boolean) => () => {
-    setOtherOpen(newOpen);
-  };
-
-  //drawer2
+  const [showCategoryForm, setShowCategoryForm] = useState(false);
   const [showProductFormDrawer, setShowProductFormDrawer] = useState(false);
-
-  //drawer3
-  const [otherOpen3, setOtherOpen3] = useState(false);
-
-  const toggleDrawer3 = (newOpen: boolean) => () => {
-    setOtherOpen3(newOpen);
-  };
-
-  const Editarcategoria = (
-    <Box sx={{ width: 600 }} role="presentation">
-      <div className="m-4">
-        <h5>categoria</h5>
-        <div className="border-bottom mt-4">
-          <h1 style={{ color: "#F20574" }}>Editar Categoria</h1>
-        </div>
-        <div className="mt-5">
-          <Input title="Nombre Categoria" placeholder="Obligatorio"></Input>
-          <div className="mt-5">
-            <h6 style={{ color: "#F20574" }}>
-              <strong>Descripcion</strong>
-            </h6>
-            <TextField
-              fullWidth
-              id="outlined-textarea"
-              label="Descripcion"
-              placeholder="Placeholder"
-              multiline
-              color="error"
-            />{" "}
-          </div>
-        </div>
-      </div>
-      <Divider />
-      <div className="d-flex bottom-content mt-5">
-        <div className="container">
-          <div className="row">
-            <div className="bottom-content col-md-6">
-              <ColoredButton color="yellow">Guardar Cambios</ColoredButton>
-            </div>
-            <div className="bottom-content col-md-6">
-              <ColoredButton color="pink">Eliminar Categoria</ColoredButton>
-            </div>
-          </div>
-        </div>
-      </div>
-    </Box>
-  );
-
-  const NuevaCategoria = (
-    <Box sx={{ width: 600 }} role="presentation">
-      <div className="m-4">
-        <h5>categoria</h5>
-        <div className="border-bottom mt-4">
-          <h1 style={{ color: "#F20574" }}>Nueva Categoria</h1>
-        </div>
-        <div className="mt-5">
-          <Input title="Nombre Categoria" placeholder="Obligatorio"></Input>
-          <div className="mt-5">
-            <h6 style={{ color: "#F20574" }}>
-              <strong>Descripcion</strong>
-            </h6>
-            <TextField
-              fullWidth
-              id="outlined-textarea"
-              label="Descripcion"
-              placeholder="Placeholder"
-              multiline
-              color="error"
-            />{" "}
-          </div>
-        </div>
-      </div>
-      <Divider />
-      <div className="d-flex bottom-content mt-5">
-        <div className="container">
-          <div className="row">
-            <div className="bottom-content col-md-6">
-              <ColoredButton color="yellow">Cancelar</ColoredButton>
-            </div>
-            <div className="bottom-content col-md-6">
-              <ColoredButton color="pink">Guardar Cambios</ColoredButton>
-            </div>
-          </div>
-        </div>
-      </div>
-    </Box>
-  );
 
   return (
     <div>
@@ -125,11 +32,6 @@ export default function MenuPage() {
                 <strong>Nombre del negocio</strong>
               </h4>
               <h5>direccion del negocio</h5>
-            </div>
-          </div>
-          <div className="col-md-4">
-            <div className="d-flex justify-content-end">
-              <ColoredButton color="yellow">Usuario</ColoredButton>
             </div>
           </div>
         </div>
@@ -179,7 +81,7 @@ export default function MenuPage() {
             background: "transparent",
             cursor: "pointer",
           }}
-          onClick={toggleDrawer3(true)}
+          onClick={() => setShowCategoryForm(true)}
         >
           <Image
             src={unmasrosa}
@@ -193,27 +95,12 @@ export default function MenuPage() {
           />
           Agregar Categoria
         </button>
-        <Drawer open={otherOpen3} onClose={toggleDrawer3(false)}>
-          {NuevaCategoria}
+        <Drawer
+          open={showCategoryForm}
+          onClose={() => setShowCategoryForm(false)}
+        >
+          <NewCategoryForm onCreated={() => setShowCategoryForm(false)} />
         </Drawer>
-      </div>
-
-      <div className="mt-5">
-        <div className="container">
-          <div className="row">
-            <div className="col-md-9">
-              <ColoredButton color="pink">Categoria</ColoredButton>
-            </div>
-            <div className="col-md-3">
-              <ColoredButton color="yellow" onClick={toggleDrawer(true)}>
-                Editar Categoria
-              </ColoredButton>
-              <Drawer open={otherOpen} onClose={toggleDrawer(false)}>
-                {Editarcategoria}
-              </Drawer>
-            </div>
-          </div>
-        </div>
       </div>
 
       {food &&

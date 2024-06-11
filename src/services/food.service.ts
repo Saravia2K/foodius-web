@@ -45,3 +45,23 @@ export const createFood = async (form: FormData) => {
     return false;
   }
 };
+
+export const createCategory = async (
+  bussinesId: number,
+  name: string,
+  description: string
+) => {
+  try {
+    return (
+      await fetch(`${API_URL}/foodCategories`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id_business: bussinesId, name, description }),
+      })
+    ).ok;
+  } catch (error: any) {
+    return false;
+  }
+};
