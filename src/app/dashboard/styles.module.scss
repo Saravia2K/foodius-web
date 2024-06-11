@@ -58,4 +58,50 @@
       font-size: 20px;
     }
   }
+
+.barraB{ 
+  background-color: #f5efef;
+  border-radius: 20px;
+  
+}
+
+.contBarra{
+  padding-left: 30px;
+  padding-top: 10px;
+  padding-bottom: 0px;
+}
+
+.mid{
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
+
+.numb{
+  display: flex;
+  text-align: center;
+  color: #F20574;
+  justify-content: center; 
+  align-items: center; 
+  height: 100%;
+}
+
+.descrip{
+  font-size: small;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  text-align: justify;
+}
+
+.img1{
+  text-align: center;
+}
+
+.img2{
+  text-align: center;
+}
+
+.img3{
+  text-align: center;
+}
+  
 }
