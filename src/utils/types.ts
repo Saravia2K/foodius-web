@@ -20,3 +20,10 @@ export type TBusiness = {
   banner: string;
   slug: string;
 };
+
+export type TOrderState =
+  | "ACTIVE"
+  | "PREPARING"
+  | "FINISHED"
+  | "DELIVERING"
+  | "CANCELED";
