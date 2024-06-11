@@ -13,7 +13,7 @@ import { TFormInput, TProps } from "./types";
 import useSession from "@/hooks/useSession";
 
 import { login as userLogin } from "@/services/users.service";
-import { checkLogin } from "@/services/system.service";
+import { checkLogin, setCookie } from "@/services/system.service";
 import { login as businessLogin } from "@/services/businesses.service";
 
 export default function Login({ open, onClose }: TProps) {
@@ -46,12 +46,14 @@ export default function Login({ open, onClose }: TProps) {
         setError(loginRes.data.message);
         return;
       }
+      await setCookie("user", JSON.stringify(loginRes.data.user));
       session.loginUser(loginRes.data.user);
     } else {
       const login = await businessLogin(data.email, data.password);
       if ("message" in login) {
         return setError(login.message);
       }
+      await setCookie("business", JSON.stringify(login));
       session.loginBusiness(login);
     }
 

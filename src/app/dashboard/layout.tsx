@@ -12,18 +12,27 @@ import HomeIcon from "@mui/icons-material/Home";
 import StorefrontIcon from "@mui/icons-material/Storefront";
 import ScheduleIcon from "@mui/icons-material/Schedule";
 import RestaurantIcon from "@mui/icons-material/Restaurant";
+import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 
 import useSession from "@/hooks/useSession";
 import useBusinessDashboard from "@/hooks/useBusinessDashboard";
 
 import styles from "./styles.module.scss";
 import logo from "@/assets/images/foodius-logo.png";
+import { removeCookie } from "@/services/system.service";
 
 export default function AdminLayout({ children }: PropsWithChildren) {
+  const { logoutBusiness } = useSession();
   const pathname = usePathname();
   const router = useRouter();
   const { businessLogged } = useSession();
   const { business } = useBusinessDashboard(businessLogged?.id ?? 0);
+
+  const handleLogout = async () => {
+    await removeCookie("business");
+    logoutBusiness();
+    router.push("/");
+  };
 
   return (
     <div className={styles.admin}>
@@ -55,6 +64,18 @@ export default function AdminLayout({ children }: PropsWithChildren) {
               </li>
             );
           })}
+          <li
+            className={classnames({
+              [styles.item]: true,
+            })}
+            onClick={handleLogout}
+          >
+            <Tooltip title="Logout">
+              <IconButton>
+                <LogoutRoundedIcon />
+              </IconButton>
+            </Tooltip>
+          </li>
         </ul>
         <div></div>
       </nav>

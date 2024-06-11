@@ -18,6 +18,7 @@ import useSession from "@/hooks/useSession";
 
 import style from "./styles.module.scss";
 import logo from "@/assets/images/foodius-logo.png";
+import { removeCookie } from "@/services/system.service";
 
 export default function ClientNavbar() {
   const session = useSession();
@@ -38,7 +39,8 @@ export default function ClientNavbar() {
     setScrolled(window.scrollY >= 100);
   }
 
-  function logout() {
+  async function logout() {
+    await removeCookie("user");
     session.logoutUser();
     router.push("/");
   }
