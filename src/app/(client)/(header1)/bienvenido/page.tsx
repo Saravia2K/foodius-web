@@ -6,8 +6,11 @@ import Image from "next/image";
 import mascotafoodius from "@/assets/images/mscfoodius.png";
 import tipohumo from "@/assets/images/tipoconhumo.png";
 import dostipos from "@/assets/images/dostipos.png";
+import { useRouter } from "next-nprogress-bar";
 
 export default function BienvenidoPage() {
+  const router = useRouter();
+
   return (
     <div>
       <div className="container-fluid bg-white py-5">
@@ -33,7 +36,12 @@ export default function BienvenidoPage() {
         </div>
         <center>
           <div style={{ marginTop: "60px", marginBottom: "60px" }}>
-            <ColoredButton color="pink">Administra tu negocio</ColoredButton>
+            <ColoredButton
+              color="pink"
+              onClick={() => router.push("/dashboard")}
+            >
+              Administra tu negocio
+            </ColoredButton>
           </div>
         </center>
       </div>
@@ -77,10 +85,10 @@ export default function BienvenidoPage() {
                 <strong>#FoodiusPartner</strong>
               </h1>
               <p style={{ margin: "40px", fontSize: "20px", color: "white" }}>
-                "Sin duda, Foodies ha superado nuestras expectativas al
+                &quot;Sin duda, Foodies ha superado nuestras expectativas al
                 ayudarnos en cada situación que se presenta, y más allá de eso,
                 nos han brindado gran apoyo en cuanto a marketing, branding y
-                difusión de Favoritos."
+                difusión de Favoritos.&quot;
                 <br></br>
                 <br></br>
                 Foodius Partners.{" "}

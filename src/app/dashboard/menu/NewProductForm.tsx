@@ -1,5 +1,4 @@
-import { CSSProperties, useState } from "react";
-import Image from "next/image";
+import { useState } from "react";
 import {
   Alert,
   Box,
@@ -14,12 +13,10 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import useSession from "@/hooks/useSession";
 import useBusinessFood from "@/hooks/useBussinessFood";
 import Select from "@/components/Select";
-import { useDropzone } from "react-dropzone";
 import { createFood, updateFood } from "@/services/food.service";
 import { toast } from "react-toastify";
 import { TFood } from "@/hooks/useBusiness";
-
-import styles from "./styles.module.scss";
+import Dropzone from "@/components/Dropzone";
 
 type TFormFields = {
   id_food_category: number;
@@ -30,19 +27,8 @@ type TFormFields = {
 export default function NewProductForm({ onCreated, food: foodInfo }: TProps) {
   const { businessLogged } = useSession();
   const { food, reloadFood } = useBusinessFood(businessLogged?.id ?? 0);
-  const [pic, setPic] = useState<File & { preview: string }>();
+  const [pic, setPic] = useState<File>();
   const [showPicWarning, setShowPicWarning] = useState(false);
-
-  const { getRootProps, getInputProps } = useDropzone({
-    maxFiles: 1,
-    accept: {
-      "image/*": [],
-    },
-    onDrop: (af) => {
-      if (af.length >= 1)
-        setPic(Object.assign(af[0], { preview: URL.createObjectURL(af[0]) }));
-    },
-  });
 
   const {
     control,
@@ -179,31 +165,7 @@ export default function NewProductForm({ onCreated, food: foodInfo }: TProps) {
         </div>
         <Divider />
 
-        <Box>
-          <Box {...getRootProps({ className: styles.dropzone })}>
-            <input {...getInputProps()} />
-            <p>Arrastra y suelta aquí la foto de la comida</p>
-            <em>1 imagen permitida</em>
-          </Box>
-          {pic && (
-            <div className={styles.thumbContainer}>
-              <div style={thumb} key={pic.name}>
-                <div style={thumbInner}>
-                  <Image
-                    alt=""
-                    width={300}
-                    height={300}
-                    src={pic.preview}
-                    style={img}
-                    onLoad={() => {
-                      URL.revokeObjectURL(pic.preview);
-                    }}
-                  />
-                </div>
-              </div>
-            </div>
-          )}
-        </Box>
+        <Dropzone onDrop={setPic} />
 
         <div className="d-flex bottom-content mt-5 mb-5">
           <div className="container">
@@ -243,30 +205,6 @@ export default function NewProductForm({ onCreated, food: foodInfo }: TProps) {
     </Box>
   );
 }
-
-const thumb: CSSProperties = {
-  display: "inline-flex",
-  borderRadius: 2,
-  border: "1px solid #eaeaea",
-  marginBottom: 8,
-  marginRight: 8,
-  width: 100,
-  height: 100,
-  padding: 4,
-  boxSizing: "border-box",
-};
-
-const thumbInner = {
-  display: "flex",
-  minWidth: 0,
-  overflow: "hidden",
-};
-
-const img = {
-  display: "block",
-  width: "auto",
-  height: "100%",
-};
 
 type TProps = {
   onCreated?: () => void;

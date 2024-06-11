@@ -1,9 +1,67 @@
+"use client";
+
+import { useState } from "react";
 import Input from "@/components/Input";
 import ColoredButton from "@/components/ColoredButton";
 import Image from "next/image";
 import graficas from "../../../../assets/images/grffoodius.png";
+import Dropzone from "@/components/Dropzone";
+import { Alert, CircularProgress, Snackbar, Typography } from "@mui/material";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { createBusiness } from "@/services/businesses.service";
+import { useRouter } from "next-nprogress-bar";
+import useSession from "@/hooks/useSession";
+
+type TFormFields = {
+  name: string;
+  email: string;
+  phone_number: string;
+  location: string;
+  password: string;
+};
 
 export default function UnetePage() {
+  const { loginBusiness } = useSession();
+  const [logo, setLogo] = useState<File>();
+  const [banner, setBanner] = useState<File>();
+  const [showSnackbar, setShowSnackbar] = useState(false);
+  const router = useRouter();
+
+  const {
+    control,
+    handleSubmit,
+    formState: { isSubmitting },
+  } = useForm<TFormFields>({
+    defaultValues: {
+      name: "",
+      email: "",
+      phone_number: "",
+      location: "",
+      password: "",
+    },
+  });
+
+  const handleFormSubmit: SubmitHandler<TFormFields> = async (data) => {
+    if (!logo || !banner) return setShowSnackbar(true);
+
+    const fd = new FormData();
+    fd.append("name", data.name);
+    fd.append("email", data.email);
+    fd.append("phone_number", data.phone_number);
+    fd.append("location", data.location);
+    fd.append("password", data.password);
+    fd.append("logo", logo);
+    fd.append("banner", banner);
+
+    const { statusCode, business } = await createBusiness(fd);
+
+    if (statusCode == 201) {
+      loginBusiness(business!);
+      router.push("/bienvenido");
+      return;
+    }
+  };
+
   return (
     <div>
       <div className="container">
@@ -34,50 +92,106 @@ export default function UnetePage() {
                   </h6>
                 </div>
 
-                <Input
-                  title="Nombre del negocio"
-                  placeholder="ingrese el nombre"
-                  type="text"
-                  style={{ margin: "10px", padding: "10px" }}
-                />
+                <form onSubmit={handleSubmit(handleFormSubmit)}>
+                  <Controller
+                    control={control}
+                    name="name"
+                    render={({ field }) => (
+                      <Input
+                        {...field}
+                        required
+                        title="Nombre del negocio"
+                        placeholder="ingrese el nombre"
+                        type="text"
+                        style={{ margin: "10px", padding: "10px" }}
+                      />
+                    )}
+                  />
 
-                <Input
-                  title="Ubicacion del negocio"
-                  placeholder="Departamento / ciudad"
-                  type="text"
-                  style={{ margin: "10px", padding: "10px" }}
-                ></Input>
-                <Input
-                  title="Correo electronico"
-                  placeholder="example@gmail.com"
-                  type="email"
-                  style={{ margin: "10px", padding: "10px" }}
-                ></Input>
-                <Input
-                  title="Telefono comercial"
-                  placeholder="xxxx-xxxx"
-                  type="tel"
-                  style={{ margin: "10px", padding: "10px" }}
-                ></Input>
-                <Input
-                  title="Logo"
-                  placeholder="ingrese la imagen"
-                  type="image"
-                  style={{ margin: "10px", padding: "10px" }}
-                ></Input>
-                <Input
-                  title="Banner"
-                  placeholder="ingrese la imagen"
-                  type="image"
-                  style={{ margin: "10px", padding: "10px" }}
-                ></Input>
+                  <Controller
+                    control={control}
+                    name="location"
+                    render={({ field }) => (
+                      <Input
+                        {...field}
+                        required
+                        title="Ubicacion del negocio"
+                        placeholder="Departamento / ciudad"
+                        type="text"
+                        style={{ margin: "10px", padding: "10px" }}
+                      />
+                    )}
+                  />
 
-                <ColoredButton
-                  color="pink"
-                  style={{ margin: "20px", padding: "10px" }}
-                >
-                  Registrar negocio
-                </ColoredButton>
+                  <Controller
+                    control={control}
+                    name="email"
+                    render={({ field }) => (
+                      <Input
+                        {...field}
+                        required
+                        title="Correo electronico"
+                        placeholder="example@gmail.com"
+                        type="email"
+                        style={{ margin: "10px", padding: "10px" }}
+                      />
+                    )}
+                  />
+
+                  <Controller
+                    control={control}
+                    name="phone_number"
+                    render={({ field: { onChange, ...field } }) => (
+                      <Input
+                        {...field}
+                        required
+                        title="Telefono comercial"
+                        placeholder="xxxxxxxx"
+                        type="text"
+                        style={{ margin: "10px", padding: "10px" }}
+                        onChange={(e) => {
+                          const val = e.target.value;
+                          if (isNaN(+val) || val.length > 8) return;
+
+                          onChange(val);
+                        }}
+                      />
+                    )}
+                  />
+
+                  <div>
+                    <Typography
+                      fontFamily="inherit"
+                      fontWeight="bold"
+                      color="#f20574"
+                      marginBottom={1}
+                    >
+                      Logo
+                    </Typography>
+                    <Dropzone onDrop={setLogo} />
+                  </div>
+
+                  <div>
+                    <Typography
+                      fontFamily="inherit"
+                      fontWeight="bold"
+                      color="#f20574"
+                      marginBottom={1}
+                    >
+                      Banner
+                    </Typography>
+                    <Dropzone onDrop={setBanner} />
+                  </div>
+
+                  <ColoredButton
+                    color="pink"
+                    style={{ margin: "20px", padding: "10px" }}
+                    type="submit"
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? <CircularProgress /> : "Registrar negocio"}
+                  </ColoredButton>
+                </form>
               </div>
             </div>
           </div>
@@ -124,6 +238,25 @@ export default function UnetePage() {
           </div>
         </div>
       </div>
+
+      <Snackbar
+        open={showSnackbar}
+        autoHideDuration={6000}
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "center",
+        }}
+        onClose={() => setShowSnackbar(false)}
+      >
+        <Alert
+          severity="warning"
+          variant="filled"
+          sx={{ width: "100%" }}
+          onClose={() => setShowSnackbar(false)}
+        >
+          El logo y el banner son obligatorios
+        </Alert>
+      </Snackbar>
     </div>
   );
 }
