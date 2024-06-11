@@ -17,16 +17,27 @@ import unmasrosa from "@/assets/images/anadir.png";
 import { API_URL } from "@/utils/consts";
 import { toast } from "react-toastify";
 
+type TCategory = {
+  id: number;
+  name: string;
+  description: string;
+};
 export default function MenuPage() {
   const { businessLogged } = useSession();
   const { food, reloadFood } = useBusinessFood(businessLogged?.id ?? 0);
   const [showCategoryForm, setShowCategoryForm] = useState(false);
   const [showProductFormDrawer, setShowProductFormDrawer] = useState(false);
   const [foodToEdit, setFoodToEdit] = useState<TFood>();
+  const [categoryToEdit, setCategoryToEdit] = useState<TCategory>();
 
   const handleEditFood = (f: TFood) => {
     setFoodToEdit(f);
     setShowProductFormDrawer(true);
+  };
+
+  const handleEditCategory = (c: TCategory) => {
+    setCategoryToEdit(c);
+    setShowCategoryForm(true);
   };
 
   const handleDeleteCategory = async (id: number) => {
@@ -129,7 +140,10 @@ export default function MenuPage() {
           open={showCategoryForm}
           onClose={() => setShowCategoryForm(false)}
         >
-          <NewCategoryForm onCreated={() => setShowCategoryForm(false)} />
+          <NewCategoryForm
+            onCreated={() => setShowCategoryForm(false)}
+            category={categoryToEdit}
+          />
         </Drawer>
       </div>
 
@@ -144,7 +158,9 @@ export default function MenuPage() {
             >
               <h2>{f.name}</h2>
               <div className="buttons">
-                <IconButton>
+                <IconButton
+                  onClick={() => handleEditCategory({ id: +id, ...f })}
+                >
                   <EditRoundedIcon
                     sx={{ color: "var(--yellow)", fontSize: 40 }}
                   />

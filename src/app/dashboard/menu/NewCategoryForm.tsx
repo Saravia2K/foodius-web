@@ -2,7 +2,7 @@ import ColoredButton from "@/components/ColoredButton";
 import Input from "@/components/Input";
 import useBusinessFood from "@/hooks/useBussinessFood";
 import useSession from "@/hooks/useSession";
-import { createCategory } from "@/services/food.service";
+import { createCategory, editCategory } from "@/services/food.service";
 import { Box, CircularProgress, Divider, TextField } from "@mui/material";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
@@ -11,7 +11,7 @@ type TFormFields = {
   name: string;
   description: string;
 };
-export default function NewCategoryForm({ onCreated }: TProps) {
+export default function NewCategoryForm({ onCreated, category }: TProps) {
   const { businessLogged } = useSession();
   const { reloadFood } = useBusinessFood(businessLogged?.id ?? 0);
 
@@ -21,25 +21,23 @@ export default function NewCategoryForm({ onCreated }: TProps) {
     formState: { isSubmitting },
   } = useForm<TFormFields>({
     defaultValues: {
-      name: "",
-      description: "",
+      name: category?.name ?? "",
+      description: category?.description ?? "",
     },
   });
 
   const handleFormSubmit: SubmitHandler<TFormFields> = async (data) => {
-    const created = await createCategory(
-      businessLogged!.id,
-      data.name,
-      data.description
-    );
+    const created = category
+      ? await editCategory(category.id, data.name, data.description)
+      : await createCategory(businessLogged!.id, data.name, data.description);
     if (created) {
       await reloadFood();
       onCreated && onCreated();
     }
 
     const message = created
-      ? "Categoría creada exitosamente"
-      : "Error al crear una categoría";
+      ? "Categoría procesada exitosamente"
+      : "Error procesar una categoría";
     toast(message, {
       type: created ? "success" : "error",
     });
@@ -50,7 +48,9 @@ export default function NewCategoryForm({ onCreated }: TProps) {
       <div className="m-4">
         <h5>categoria</h5>
         <div className="border-bottom mt-4">
-          <h1 style={{ color: "#F20574" }}>Nueva Categoria</h1>
+          <h1 style={{ color: "#F20574" }}>
+            {!category ? "Nueva" : "Editar"} Categoria
+          </h1>
         </div>
       </div>
       <form onSubmit={handleSubmit(handleFormSubmit)}>
@@ -114,4 +114,11 @@ export default function NewCategoryForm({ onCreated }: TProps) {
 
 type TProps = {
   onCreated?: () => void;
+  category?: TCategory;
+};
+
+type TCategory = {
+  id: number;
+  name: string;
+  description: string;
 };

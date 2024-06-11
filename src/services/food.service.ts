@@ -78,3 +78,23 @@ export const createCategory = async (
     return false;
   }
 };
+
+export const editCategory = async (
+  id: number,
+  name: string,
+  description: string
+) => {
+  try {
+    return (
+      await fetch(`${API_URL}/foodCategories/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name, description }),
+      })
+    ).ok;
+  } catch (error: any) {
+    return false;
+  }
+};
