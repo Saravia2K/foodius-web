@@ -13,7 +13,6 @@ import TungstenRoundedIcon from "@mui/icons-material/TungstenRounded";
 import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
 import TaskAltRoundedIcon from "@mui/icons-material/TaskAltRounded";
 import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded";
-import { textAlign } from "@mui/system";
 
 export default function OrdenesPage() {
   const [contenidoActivo, setContenidoActivo] = useState("contenido1"); // Initialize with 'contenido1'
@@ -272,7 +271,7 @@ export default function OrdenesPage() {
           backdrop="static"
           keyboard={false}
         >
-          <Modal.Header  className="border-0">
+          <Modal.Header className="border-0">
             <Button className="border-0" variant="light" onClick={handleClose}>
               <b>X</b>
             </Button>
