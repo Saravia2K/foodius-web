@@ -11,6 +11,8 @@ import Tooltip from "@mui/material/Tooltip";
 
 import HomeIcon from "@mui/icons-material/Home";
 import StorefrontIcon from "@mui/icons-material/Storefront";
+import ScheduleIcon from "@mui/icons-material/Schedule";
+import RestaurantIcon from "@mui/icons-material/Restaurant";
 
 import styles from "./styles.module.scss";
 import logo from "@/assets/images/foodius-logo.png";
@@ -63,4 +65,6 @@ export default function AdminLayout({ children }: PropsWithChildren) {
 const SECTIONS = [
   { label: "Home", path: "", icon: <HomeIcon /> },
   { label: "Órdenes", path: "ordenes", icon: <StorefrontIcon /> },
+  { label: "Horarios", path: "horarios", icon: <ScheduleIcon /> },
+  { label: "Menú", path: "menu", icon: <RestaurantIcon /> },
 ];

@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useParams } from "next/navigation";
-import { Alert, Snackbar, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import Container from "react-bootstrap/Container";
 
 import useOrder from "@/hooks/useOrder";
@@ -16,22 +16,13 @@ export default function TrackerPage() {
   const { token } = useParams<{ token: string }>();
   const { orderLoading, orderState } = useOrder(token);
   const { cleanCart } = useShoppingCart();
-  const [openCancelledSnackbar, setOpenCancelledSnackbar] = useState(false);
 
   useEffect(() => {
     cleanCart();
   }, []);
 
-  useEffect(() => {
-    if (orderLoading) return;
-
-    if (orderState == ORDER_STATES.CANCELED) setOpenCancelledSnackbar(true);
-  }, [orderLoading]);
-
   const isInFirstStep = (state: ORDER_STATES) =>
-    state == ORDER_STATES.ACTIVE ||
-    state == ORDER_STATES.PREPARING ||
-    state == ORDER_STATES.CANCELED;
+    state == ORDER_STATES.ACTIVE || state == ORDER_STATES.PREPARING;
 
   const isInMiddleStep = (state: ORDER_STATES) =>
     state == ORDER_STATES.DELIVERING;
@@ -57,12 +48,31 @@ export default function TrackerPage() {
           </div>
         </Container>
 
-        <div>
+        {orderState?.state == ORDER_STATES.CANCELED ? (
+          <Box textAlign="center" bgcolor="#ffffff" paddingY={10}>
+            <h2
+              style={{
+                fontSize: "50px",
+                fontWeight: "bold",
+              }}
+            >
+              Tu orden fue cancelada por el local
+            </h2>
+            <h4
+              style={{
+                marginTop: 50,
+                fontSize: 30,
+              }}
+            >
+              Motivo: {orderState.cancellationMessage}
+            </h4>
+          </Box>
+        ) : (
           <section className={style.step_wizard}>
             <ul className={style.step_wizard_list}>
               <li
                 className={`${style.step_wizard_item} ${
-                  isInFirstStep(orderState!) ? style.current_item : ""
+                  isInFirstStep(orderState?.state!) ? style.current_item : ""
                 }`}
               >
                 <span className={style.progress_count}>1</span>
@@ -72,7 +82,7 @@ export default function TrackerPage() {
               </li>
               <li
                 className={`${style.step_wizard_item} ${
-                  isInMiddleStep(orderState!) ? style.current_item : ""
+                  isInMiddleStep(orderState?.state!) ? style.current_item : ""
                 }`}
               >
                 <span className={style.progress_count}>2</span>
@@ -82,7 +92,7 @@ export default function TrackerPage() {
               </li>
               <li
                 className={`${style.step_wizard_item} ${
-                  isInFinalStep(orderState!) ? style.current_item : ""
+                  isInFinalStep(orderState?.state!) ? style.current_item : ""
                 }`}
               >
                 <span className={style.progress_count}>3</span>
@@ -92,17 +102,8 @@ export default function TrackerPage() {
               </li>
             </ul>
           </section>
-        </div>
+        )}
       </div>
-      <Snackbar
-        open={openCancelledSnackbar}
-        autoHideDuration={6000}
-        onClose={() => setOpenCancelledSnackbar(false)}
-      >
-        <Alert onClose={() => setOpenCancelledSnackbar(false)} severity="error">
-          Este pedido fue cancelado por el usuario
-        </Alert>
-      </Snackbar>
     </div>
   );
 }

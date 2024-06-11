@@ -5,14 +5,18 @@ import { keepPreviousData, useQuery } from "@tanstack/react-query";
 export default function useOrder(token: string) {
   const { data, isLoading } = useQuery({
     queryKey: ["orders", token],
-    queryFn: () =>
-      APIRequest<{ state: ORDER_STATES }>(`orders/${token}`, "GET"),
+    queryFn: () => APIRequest<OrderStateResponse>(`orders/${token}`, "GET"),
     staleTime: Infinity,
     placeholderData: keepPreviousData,
   });
 
   return {
-    orderState: data?.data.state,
+    orderState: data?.data,
     orderLoading: isLoading,
   };
 }
+
+type OrderStateResponse = {
+  state: ORDER_STATES;
+  cancellationMessage: string;
+};
