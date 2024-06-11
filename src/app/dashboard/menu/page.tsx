@@ -9,12 +9,17 @@ import DashboardFoodRow from "@/components/DashboardFoodRow";
 import NewProductForm from "./NewProductForm";
 import NewCategoryForm from "./NewCategoryForm";
 import { TFood } from "@/hooks/useBusiness";
+import { Box, IconButton } from "@mui/material";
+import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
+import EditRoundedIcon from "@mui/icons-material/EditRounded";
 
 import unmasrosa from "@/assets/images/anadir.png";
+import { API_URL } from "@/utils/consts";
+import { toast } from "react-toastify";
 
 export default function MenuPage() {
   const { businessLogged } = useSession();
-  const { food } = useBusinessFood(businessLogged?.id ?? 0);
+  const { food, reloadFood } = useBusinessFood(businessLogged?.id ?? 0);
   const [showCategoryForm, setShowCategoryForm] = useState(false);
   const [showProductFormDrawer, setShowProductFormDrawer] = useState(false);
   const [foodToEdit, setFoodToEdit] = useState<TFood>();
@@ -22,6 +27,23 @@ export default function MenuPage() {
   const handleEditFood = (f: TFood) => {
     setFoodToEdit(f);
     setShowProductFormDrawer(true);
+  };
+
+  const handleDeleteCategory = async (id: number) => {
+    const fetchRes = await fetch(`${API_URL}/foodCategories/${id}`, {
+      method: "DELETE",
+    });
+
+    if (fetchRes.ok) {
+      await reloadFood();
+    }
+
+    const message = fetchRes.ok
+      ? "Categoria eliminada exitosamente"
+      : "Error al eliminar la categoria";
+    toast(message, {
+      type: fetchRes.ok ? "success" : "error",
+    });
   };
 
   return (
@@ -114,9 +136,26 @@ export default function MenuPage() {
       {food &&
         Object.entries(food).map(([id, f]) => (
           <Fragment key={id}>
-            <div className="border-bottom mt-5">
+            <Box
+              borderBottom="0.5px solid #000"
+              mt={5}
+              display="flex"
+              justifyContent="space-between"
+            >
               <h2>{f.name}</h2>
-            </div>
+              <div className="buttons">
+                <IconButton>
+                  <EditRoundedIcon
+                    sx={{ color: "var(--yellow)", fontSize: 40 }}
+                  />
+                </IconButton>
+                <IconButton onClick={() => handleDeleteCategory(+id)}>
+                  <DeleteRoundedIcon
+                    sx={{ color: "var(--pink)", fontSize: 40 }}
+                  />
+                </IconButton>
+              </div>
+            </Box>
 
             <div className="border-bottom mt-4 mb-4">
               <div className="container mb-4">
