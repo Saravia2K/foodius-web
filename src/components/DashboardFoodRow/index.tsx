@@ -16,7 +16,7 @@ import useBusinessFood from "@/hooks/useBussinessFood";
 import { changeFoodAviability, deleteFood } from "@/services/food.service";
 import { toast } from "react-toastify";
 
-export default function DashboardFoodRow({ food }: TProps) {
+export default function DashboardFoodRow({ food, onEdit, onEdited }: TProps) {
   const { businessLogged } = useSession();
   const { reloadFood } = useBusinessFood(businessLogged?.id ?? 0);
 
@@ -51,7 +51,9 @@ export default function DashboardFoodRow({ food }: TProps) {
           <div className="row">
             <div className="col-sm-8">
               <Image
-                src={`${API_URL}/${food.img_url}`}
+                src={`${API_URL}/${food.img_url}?refresh=${Math.random()
+                  .toString(16)
+                  .slice(2)}`}
                 alt="mas"
                 width={120}
                 height={120}
@@ -110,6 +112,7 @@ export default function DashboardFoodRow({ food }: TProps) {
                         background: "transparent",
                         cursor: "pointer",
                       }}
+                      onClick={() => onEdit && onEdit(food)}
                     >
                       <Image
                         src={edit}
@@ -157,4 +160,6 @@ export default function DashboardFoodRow({ food }: TProps) {
 
 type TProps = {
   food: TFood;
+  onEdit?: (food: TFood) => void;
+  onEdited?: () => void;
 };

@@ -1,26 +1,28 @@
 "use client";
 
 import { Fragment, useState } from "react";
-import ColoredButton from "@/components/ColoredButton";
 import Image from "next/image";
 import Drawer from "@mui/material/Drawer";
-import Box from "@mui/material/Box";
-import Divider from "@mui/material/Divider";
-import Input from "@/components/Input";
-import TextField from "@mui/material/TextField";
 import useBusinessFood from "@/hooks/useBussinessFood";
 import useSession from "@/hooks/useSession";
 import DashboardFoodRow from "@/components/DashboardFoodRow";
-
-import unmasrosa from "@/assets/images/anadir.png";
 import NewProductForm from "./NewProductForm";
 import NewCategoryForm from "./NewCategoryForm";
+import { TFood } from "@/hooks/useBusiness";
+
+import unmasrosa from "@/assets/images/anadir.png";
 
 export default function MenuPage() {
   const { businessLogged } = useSession();
   const { food } = useBusinessFood(businessLogged?.id ?? 0);
   const [showCategoryForm, setShowCategoryForm] = useState(false);
   const [showProductFormDrawer, setShowProductFormDrawer] = useState(false);
+  const [foodToEdit, setFoodToEdit] = useState<TFood>();
+
+  const handleEditFood = (f: TFood) => {
+    setFoodToEdit(f);
+    setShowProductFormDrawer(true);
+  };
 
   return (
     <div>
@@ -68,9 +70,15 @@ export default function MenuPage() {
         </button>
         <Drawer
           open={showProductFormDrawer}
-          onClose={() => setShowProductFormDrawer(false)}
+          onClose={() => {
+            setShowProductFormDrawer(false);
+            setFoodToEdit(undefined);
+          }}
         >
-          <NewProductForm onCreated={() => setShowProductFormDrawer(false)} />
+          <NewProductForm
+            onCreated={() => setShowProductFormDrawer(false)}
+            food={foodToEdit}
+          />
         </Drawer>
       </div>
       <div className="mt-3">
@@ -113,7 +121,11 @@ export default function MenuPage() {
             <div className="border-bottom mt-4 mb-4">
               <div className="container mb-4">
                 {f.dishes.map((d) => (
-                  <DashboardFoodRow key={d.id} food={d} />
+                  <DashboardFoodRow
+                    key={d.id}
+                    food={d}
+                    onEdit={handleEditFood}
+                  />
                 ))}
               </div>
             </div>

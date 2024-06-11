@@ -15,10 +15,11 @@ import useSession from "@/hooks/useSession";
 import useBusinessFood from "@/hooks/useBussinessFood";
 import Select from "@/components/Select";
 import { useDropzone } from "react-dropzone";
-import { createFood } from "@/services/food.service";
+import { createFood, updateFood } from "@/services/food.service";
+import { toast } from "react-toastify";
+import { TFood } from "@/hooks/useBusiness";
 
 import styles from "./styles.module.scss";
-import { toast } from "react-toastify";
 
 type TFormFields = {
   id_food_category: number;
@@ -26,7 +27,7 @@ type TFormFields = {
   description: string;
   price: number;
 };
-export default function NewProductForm({ onCreated }: TProps) {
+export default function NewProductForm({ onCreated, food: foodInfo }: TProps) {
   const { businessLogged } = useSession();
   const { food, reloadFood } = useBusinessFood(businessLogged?.id ?? 0);
   const [pic, setPic] = useState<File & { preview: string }>();
@@ -49,15 +50,15 @@ export default function NewProductForm({ onCreated }: TProps) {
     formState: { isSubmitting },
   } = useForm<TFormFields>({
     defaultValues: {
-      id_food_category: food ? +Object.keys(food)[0] : 0,
-      name: "",
-      description: "",
-      price: 0,
+      id_food_category: foodInfo?.id_food_category ?? +Object.keys(food!)[0],
+      name: foodInfo?.name ?? "",
+      description: foodInfo?.description ?? "",
+      price: Number(foodInfo?.price) ?? 0,
     },
   });
 
   const handleFormSubmit: SubmitHandler<TFormFields> = async (data) => {
-    if (!pic) {
+    if (!pic && !foodInfo) {
       return setShowPicWarning(true);
     }
 
@@ -67,19 +68,22 @@ export default function NewProductForm({ onCreated }: TProps) {
     fd.append("description", data.description);
     fd.append("price", `${data.id_food_category}`);
     fd.append("is_available", `true`);
-    fd.append("image", pic);
+    if (pic) fd.append("image", pic);
 
-    const created = await createFood(fd);
-    if (created) {
+    const success = foodInfo
+      ? await updateFood(foodInfo.id, fd)
+      : await createFood(fd);
+
+    if (success) {
       await reloadFood();
       onCreated && onCreated();
     }
 
-    const message = created
-      ? "Producto creado exitosamente"
-      : "Error al crear un producto";
+    const message = success
+      ? "Producto procesado exitosamente"
+      : "Error al procesar el producto";
     toast(message, {
-      type: created ? "success" : "error",
+      type: success ? "success" : "error",
     });
   };
 
@@ -89,7 +93,9 @@ export default function NewProductForm({ onCreated }: TProps) {
         <h5>Producto</h5>
 
         <div className="d-flex justify-content-between border-bottom mt-4">
-          <h1 style={{ color: "#F20574" }}>Nuevo Producto</h1>
+          <h1 style={{ color: "#F20574" }}>
+            {foodInfo ? "Editar" : "Nuevo"} Producto
+          </h1>
         </div>
       </div>
 
@@ -264,4 +270,5 @@ const img = {
 
 type TProps = {
   onCreated?: () => void;
+  food?: TFood;
 };

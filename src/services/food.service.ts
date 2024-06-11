@@ -46,6 +46,19 @@ export const createFood = async (form: FormData) => {
   }
 };
 
+export const updateFood = async (id: number, form: FormData) => {
+  try {
+    return (
+      await fetch(`${API_URL}/food/${id}`, {
+        method: "PATCH",
+        body: form,
+      })
+    ).ok;
+  } catch (error: any) {
+    return false;
+  }
+};
+
 export const createCategory = async (
   bussinesId: number,
   name: string,
