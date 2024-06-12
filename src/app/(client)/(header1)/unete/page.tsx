@@ -12,6 +12,7 @@ import { createBusiness } from "@/services/businesses.service";
 import { useRouter } from "next-nprogress-bar";
 import useSession from "@/hooks/useSession";
 import { toast } from "react-toastify";
+import { setCookie } from "@/services/system.service";
 
 type TFormFields = {
   name: string;
@@ -58,6 +59,7 @@ export default function UnetePage() {
 
     if (statusCode == 201) {
       loginBusiness(business!);
+      await setCookie("business", business);
       router.push("/bienvenido");
       return;
     }
