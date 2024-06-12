@@ -52,7 +52,7 @@ export default function NewProductForm({ onCreated, food: foodInfo }: TProps) {
     fd.append("id_food_category", `${data.id_food_category}`);
     fd.append("name", data.name);
     fd.append("description", data.description);
-    fd.append("price", `${data.id_food_category}`);
+    fd.append("price", `${data.price}`);
     fd.append("is_available", `true`);
     if (pic) fd.append("image", pic);
 
