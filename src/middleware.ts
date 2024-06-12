@@ -1,7 +1,8 @@
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
+import { isRegisterTokenValid } from "./services/businesses.service";
 
-export function middleware(req: NextRequest) {
+export async function middleware(req: NextRequest) {
   const userCookie = cookies().get("user");
   const businessCookie = cookies().get("business");
   const currentUrl = req.url;
@@ -12,6 +13,18 @@ export function middleware(req: NextRequest) {
     currentUrl.includes("/dashboard") || currentPath == "/bienvenido";
   const imInUserPages = !imInDashboardPages && !imInIndex;
 
+  const home = NextResponse.redirect(new URL("/", currentUrl));
+
+  if (currentPath.includes("/unete")) {
+    const token = req.nextUrl.searchParams.get("token");
+    if (!token) return home;
+
+    const isValid = await isRegisterTokenValid(token);
+    if (!isValid) return home;
+
+    return NextResponse.next();
+  }
+
   if (userCookie && imInDashboardPages)
     return NextResponse.redirect(new URL("/negocios", currentUrl));
 
@@ -19,7 +32,7 @@ export function middleware(req: NextRequest) {
     return NextResponse.redirect(new URL("/dashboard", currentUrl));
 
   if ((!userCookie && imInUserPages) || (!businessCookie && imInDashboardPages))
-    return NextResponse.redirect(new URL("/", currentUrl));
+    return home;
 
   return NextResponse.next();
 }

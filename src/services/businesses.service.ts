@@ -40,3 +40,17 @@ export const login = async (email: string, password: string) => {
 
   return (await fetchRes.json()) as TDBTable<TBusiness>;
 };
+
+export const isRegisterTokenValid = async (token: string) => {
+  try {
+    const fetchRes = await fetch(`${API_URL}/register-token/${token}/is-valid`);
+
+    if (!fetchRes.ok) throw new Error();
+
+    const data = (await fetchRes.json()) as { valid: boolean };
+
+    return data.valid;
+  } catch (error: any) {
+    return false;
+  }
+};
