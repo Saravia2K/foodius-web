@@ -59,22 +59,8 @@ export default function MenuPage() {
 
   return (
     <div>
-      <div className="container">
-        <div className="row">
-          <div className="col-md-8">
-            <div>
-              <h4>
-                <strong>Nombre del negocio</strong>
-              </h4>
-              <h5>direccion del negocio</h5>
-            </div>
-          </div>
-        </div>
-      </div>
-
       <div>
-        <h1 style={{ color: "#F20574" }} className="mt-5">
-          {" "}
+        <h1 style={{ color: "#F20574" }}>
           <strong>Administrador de Menú</strong>
         </h1>
       </div>
