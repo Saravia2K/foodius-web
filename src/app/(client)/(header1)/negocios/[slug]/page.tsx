@@ -79,6 +79,9 @@ export default function NegocioPage() {
   if (businessLoading) return;
   return (
     <div className={styles.negocio}>
+      <head>
+        <title>{`Foodius | ${business.name}`}</title>
+      </head>
       <div className={styles["business-images"]}>
         <div className={styles["banner-container"]}>
           <Image

@@ -25,6 +25,9 @@ export default function NegociosPage() {
 
   return (
     <div className={styles.negocios}>
+      <head>
+        <title>Foodius | Negocios</title>
+      </head>
       <Select
         sx={{ width: 150 }}
         value={order}

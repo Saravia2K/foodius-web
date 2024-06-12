@@ -36,6 +36,9 @@ export default function AdminLayout({ children }: PropsWithChildren) {
 
   return (
     <div className={styles.admin}>
+      <head>
+        <title>Foodius | Dashboard</title>
+      </head>
       <nav className={styles.sidebar}>
         <Image
           src={logo}

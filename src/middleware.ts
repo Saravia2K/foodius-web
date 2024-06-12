@@ -25,10 +25,10 @@ export async function middleware(req: NextRequest) {
     return NextResponse.next();
   }
 
-  if (userCookie && imInDashboardPages)
+  if (!!userCookie && imInDashboardPages)
     return NextResponse.redirect(new URL("/negocios", currentUrl));
 
-  if (businessCookie && (imInUserPages || imInIndex))
+  if (!!businessCookie && (imInUserPages || imInIndex))
     return NextResponse.redirect(new URL("/dashboard", currentUrl));
 
   if ((!userCookie && imInUserPages) || (!businessCookie && imInDashboardPages))
