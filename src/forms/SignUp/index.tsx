@@ -107,7 +107,7 @@ export default function SignUp({ open, onClose }: TProps) {
         <Controller
           control={control}
           name="phone_number"
-          render={({ field: { ref, ..._field } }) => (
+          render={({ field: { ref, onChange, ..._field } }) => (
             <Input
               {..._field}
               type="text"
@@ -115,8 +115,11 @@ export default function SignUp({ open, onClose }: TProps) {
               placeholder="xxxx-xxxx"
               required
               autoComplete="off"
-              InputProps={{
-                componentsProps: { input: { maxLength: 8 } },
+              onChange={(e) => {
+                const val = e.target.value;
+                if (isNaN(+val) || val.length > 8) return;
+
+                onChange(val);
               }}
             />
           )}

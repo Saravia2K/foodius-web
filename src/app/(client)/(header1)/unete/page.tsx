@@ -11,6 +11,7 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { createBusiness } from "@/services/businesses.service";
 import { useRouter } from "next-nprogress-bar";
 import useSession from "@/hooks/useSession";
+import { toast } from "react-toastify";
 
 type TFormFields = {
   name: string;
@@ -60,6 +61,10 @@ export default function UnetePage() {
       router.push("/bienvenido");
       return;
     }
+
+    toast(business.message, {
+      type: "error",
+    });
   };
 
   return (
