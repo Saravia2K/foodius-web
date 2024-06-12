@@ -7,12 +7,18 @@ export function middleware(req: NextRequest) {
   const currentUrl = req.url;
   const currentPath = req.url.replace("http://localhost:3000", "");
 
-  const imInDashboardPages = currentUrl.includes("/dashboard");
+  const imInIndex = currentPath == "/";
+  const imInDashboardPages =
+    currentUrl.includes("/dashboard") || currentPath == "/bienvenido";
+  const imInUserPages = !imInDashboardPages && !imInIndex;
 
   if (userCookie && imInDashboardPages)
     return NextResponse.redirect(new URL("/negocios", currentUrl));
 
-  if (!businessCookie && imInDashboardPages)
+  if (businessCookie && (imInUserPages || imInIndex))
+    return NextResponse.redirect(new URL("/dashboard", currentUrl));
+
+  if ((!userCookie && imInUserPages) || (!businessCookie && imInDashboardPages))
     return NextResponse.redirect(new URL("/", currentUrl));
 
   return NextResponse.next();
