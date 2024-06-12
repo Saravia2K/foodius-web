@@ -82,7 +82,7 @@ export default function OrdenesPage() {
       }
     );
 
-    if (!fetchRes.ok) {
+    if (fetchRes.ok) {
       toast("Orden cancelada con éxito", {
         type: "success",
       });
@@ -307,7 +307,7 @@ export default function OrdenesPage() {
                       <td>{h.client}</td>
                       <td>
                         <div style={{ display: "flex", alignItems: "center" }}>
-                          <span>${h.total}</span>
+                          <span>${h.total.toFixed(2)}</span>
                           <IconButton onClick={() => setSelectedOrder(h)}>
                             <AddCircleOutlineRoundedIcon
                               style={{
