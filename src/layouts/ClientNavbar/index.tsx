@@ -119,16 +119,20 @@ export default function ClientNavbar() {
           }}
           onClick={() => router.push("/negocios")}
         />
-        <Navbar.Toggle aria-controls="navbar" />
-        <Navbar.Collapse id="navbar" className="justify-content-end">
-          <Nav className="ms-auto">
-            {session.userLogged != undefined ? (
-              <LoggedInItems />
-            ) : (
-              <NotLoggedInItems />
-            )}
-          </Nav>
-        </Navbar.Collapse>
+        {!session.businessLogged && (
+          <>
+            <Navbar.Toggle aria-controls="navbar" />
+            <Navbar.Collapse id="navbar" className="justify-content-end">
+              <Nav className="ms-auto">
+                {session.userLogged != undefined ? (
+                  <LoggedInItems />
+                ) : (
+                  <NotLoggedInItems />
+                )}
+              </Nav>
+            </Navbar.Collapse>
+          </>
+        )}
       </Container>
       <Login open={openLogin} onClose={() => setOpenLogin(false)} />
       <SignUp open={openSignUp} onClose={() => setOpenSignUp(false)} />
