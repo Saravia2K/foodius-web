@@ -1,8 +1,12 @@
 import { APIRequest } from "@/utils";
+import getWeekDay from "@/utils/getWeekDay";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 
 const fetchBusinesses = () =>
-  APIRequest<BusinessesResponse>("businesses", "GET");
+  APIRequest<BusinessesResponse>(
+    `businesses/${getWeekDay()}/${new Date().getTime()}`,
+    "GET"
+  );
 
 export default function useBusinesses() {
   const { data, isLoading } = useQuery({
