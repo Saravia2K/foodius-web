@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useParams } from "next/navigation";
+import { useRouter } from "next-nprogress-bar";
 import useGlobalSettings from "@/hooks/useGlobalSettings";
 import useBusiness, { TFood } from "@/hooks/useBusiness";
 import {
@@ -29,6 +30,8 @@ import { API_URL } from "@/utils/consts";
 import useShoppingCart from "@/hooks/useShoppingCart";
 
 import styles from "./styles.module.scss";
+import getWeekDay from "@/utils/getWeekDay";
+import dayjs from "dayjs";
 
 export default function NegocioPage() {
   const { slug } = useParams<{ slug: string }>();
@@ -40,6 +43,7 @@ export default function NegocioPage() {
   const [targetFoodAmount, setTargetFoodAmount] = useState(1);
   const { setMainStyles } = useGlobalSettings();
   const { setFood } = useShoppingCart();
+  const router = useRouter();
 
   useEffect(() => {
     setMainStyles({
@@ -77,6 +81,16 @@ export default function NegocioPage() {
   }
 
   if (businessLoading) return;
+  const todaySchedule = business.Schedules.find(
+    (s) =>
+      s.day == getWeekDay() &&
+      new Date(s.from).getTime() <= new Date().getTime() &&
+      new Date(s.to).getTime() >= new Date().getTime()
+  );
+  if (todaySchedule == undefined) {
+    router.push("/negocios");
+    return;
+  }
   return (
     <div className={styles.negocio}>
       <head>
@@ -105,7 +119,10 @@ export default function NegocioPage() {
         <div className={styles["business-data"]}>
           <div className={styles["title-schedule"]}>
             <h1 className={styles.title}>{business.name}</h1>
-            <h6 className={styles.schedule}>Horario: 9:00 a.m a 11:30 p.m</h6>
+            <h6 className={styles.schedule}>
+              Horario: {dayjs(new Date(todaySchedule.from)).format("hh:mm A")} -{" "}
+              {dayjs(new Date(todaySchedule.to)).format("hh:mm A")}
+            </h6>
           </div>
           <div className={styles["main-plates"]}>
             {firstMainFood != undefined && (
@@ -152,9 +169,6 @@ export default function NegocioPage() {
       </div>
       <div className={styles.menu}>
         <h2 className={styles["menu-title"]}>Menú</h2>
-        <h4 className={styles["menu-schedule"]}>
-          Horario: 9:00 a.m - 11:00 p.m
-        </h4>
         <Box>
           <Box sx={{ borderBottom: 1, borderColor: "divider", ml: 15 }}>
             <Tabs

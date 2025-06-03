@@ -34,7 +34,7 @@ const shoppingCartState = create<TShoppingCartState>()(
             else foods[foodIdx].amount = amount;
           }
 
-          return { foods: foods.length == 0 ? undefined : foods };
+          return { foods: foods.length == 0 ? [] : foods };
         }),
       deleteFood: (id) =>
         set((state) => {

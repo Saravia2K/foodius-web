@@ -147,6 +147,21 @@ export default function UnetePage() {
 
                   <Controller
                     control={control}
+                    name="password"
+                    render={({ field }) => (
+                      <Input
+                        {...field}
+                        required
+                        title="Contraseña"
+                        placeholder="********"
+                        type="password"
+                        style={{ margin: "10px", padding: "10px" }}
+                      />
+                    )}
+                  />
+
+                  <Controller
+                    control={control}
                     name="phone_number"
                     render={({ field: { onChange, ...field } }) => (
                       <Input

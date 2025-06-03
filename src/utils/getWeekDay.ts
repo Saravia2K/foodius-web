@@ -8,5 +8,5 @@ export default function getWeekDay() {
     "Sábado",
     "Domingo",
   ];
-  return days[new Date().getDay()];
+  return days[new Date().getDay() - 1];
 }
